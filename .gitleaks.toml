@@ -1,0 +1,18 @@
+# gitleaks configuration for jrs-etl.
+# The Talend references and the sample job fixture deliberately show the
+# *format* of Studio-encrypted values ("enc:system.encryption.key.v1:<base64>")
+# with placeholder ciphertext. They are documentation, not credentials.
+title = "jrs-etl"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Documented Talend encrypted-value placeholders"
+regexes = [
+  '''enc:system\.encryption\.key\.v1:[A-Za-z0-9+/=_]+''',
+  '''enc:routine\.encryption\.key\.v1:[A-Za-z0-9+/=_]+''',
+]
+paths = [
+  '''plugins/talend-etl/skills/talend-etl/fixtures/.*''',
+]

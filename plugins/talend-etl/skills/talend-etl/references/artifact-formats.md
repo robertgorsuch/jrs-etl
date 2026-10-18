@@ -662,7 +662,7 @@ noise; safe to delete (Studio regenerates on open). Treat as binary in Git.
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd">
   <talendfile:ContextType confirmationNeeded="false" name="Default">
     <contextParameter comment="" name="MySQL_DWH_Login" prompt="MySQL_DWH_Login?" promptNeeded="false" repositoryContextId="built-in" type="id_String" value="adnadm"/>
-    <contextParameter comment="" name="MySQL_DWH_Password" prompt="MySQL_DWH_Password?" promptNeeded="false" repositoryContextId="built-in" type="id_Password" value="enc:system.encryption.key.v1:1ZZpx2OAA/3y5VVYBV8ewni+LgmF+o/AKKMaIiHf+ON+SAZyxLWQCCZQ"/>
+    <contextParameter comment="" name="MySQL_DWH_Password" prompt="MySQL_DWH_Password?" promptNeeded="false" repositoryContextId="built-in" type="id_Password" value="enc:system.encryption.key.v1:PLACEHOLDER_BASE64_CIPHERTEXT=="/>
   </talendfile:ContextType>
   <talendfile:ContextType confirmationNeeded="false" name="Deployment"> ... </talendfile:ContextType>
 </xmi:XMI>

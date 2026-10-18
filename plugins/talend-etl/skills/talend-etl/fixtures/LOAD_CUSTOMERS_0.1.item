@@ -7,7 +7,7 @@
     <contextParameter comment="" name="DB_PORT" prompt="DB_PORT?" promptNeeded="false" type="id_Integer" value="5432" repositoryContextId="_ctxGroup01"/>
     <contextParameter comment="" name="DB_NAME" prompt="DB_NAME?" promptNeeded="false" type="id_String" value="dwh" repositoryContextId="_ctxGroup01"/>
     <contextParameter comment="" name="DB_USER" prompt="DB_USER?" promptNeeded="false" type="id_String" value="etl" repositoryContextId="_ctxGroup01"/>
-    <contextParameter comment="" name="DB_PASS" prompt="DB_PASS?" promptNeeded="false" type="id_Password" value="enc:system.encryption.key.v1:AbCdEf0123456789" repositoryContextId="_ctxGroup01"/>
+    <contextParameter comment="" name="DB_PASS" prompt="DB_PASS?" promptNeeded="false" type="id_Password" value="enc:system.encryption.key.v1:FIXTURE_DEV_PLACEHOLDER_NOT_A_SECRET==" repositoryContextId="_ctxGroup01"/>
     <contextParameter comment="" name="BATCH_SIZE" prompt="BATCH_SIZE?" promptNeeded="false" type="id_Integer" value="1000" repositoryContextId="_ctxGroup01"/>
   </context>
   <context confirmationNeeded="false" name="PROD">
@@ -17,7 +17,7 @@
     <contextParameter comment="" name="DB_PORT" prompt="DB_PORT?" promptNeeded="false" type="id_Integer" value="5432" repositoryContextId="_ctxGroup01"/>
     <contextParameter comment="" name="DB_NAME" prompt="DB_NAME?" promptNeeded="false" type="id_String" value="dwh" repositoryContextId="_ctxGroup01"/>
     <contextParameter comment="" name="DB_USER" prompt="DB_USER?" promptNeeded="false" type="id_String" value="etl_prod" repositoryContextId="_ctxGroup01"/>
-    <contextParameter comment="" name="DB_PASS" prompt="DB_PASS?" promptNeeded="false" type="id_Password" value="enc:system.encryption.key.v1:ZyXwVu9876543210" repositoryContextId="_ctxGroup01"/>
+    <contextParameter comment="" name="DB_PASS" prompt="DB_PASS?" promptNeeded="false" type="id_Password" value="enc:system.encryption.key.v1:FIXTURE_PROD_PLACEHOLDER_NOT_A_SECRET==" repositoryContextId="_ctxGroup01"/>
     <contextParameter comment="" name="BATCH_SIZE" prompt="BATCH_SIZE?" promptNeeded="false" type="id_Integer" value="5000" repositoryContextId="_ctxGroup01"/>
   </context>
   <parameters>
