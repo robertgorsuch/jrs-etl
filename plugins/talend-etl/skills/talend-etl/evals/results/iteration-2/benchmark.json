@@ -1,0 +1,453 @@
+{
+  "metadata": {
+    "skill_name": "talend-etl",
+    "skill_path": "/home/user/jrs-deploy/plugins/talend-etl/skills/talend-etl",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-10-18T03:50:27Z",
+    "evals_run": [
+      1,
+      2,
+      3
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "time_seconds": 299.2,
+        "tokens": 145027,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies tFileList -> Iterate -> tFileInputDelimited as a per-file loop and names the globalMap CURRENT_FILEPATH variable",
+          "passed": true,
+          "evidence": "Canvas: '[tFileList_1 \"list_csv\"] --Iterate--> [tFileInputDelimited_1 \"read_customers\"] ... file = tFileList_1_CURRENT_FILEPATH'; summary: 'iterates over every file in context.INPUT_DIR matching context.FILE_MASK'."
+        },
+        {
+          "text": "Describes the tMap lookup as an inner join with Unique match / Load once and notes out_no_country catches inner-join rejects",
+          "passed": true,
+          "evidence": "Section 5: 'Lookup Model = Load once, Match Model = Unique match, Join Model = Inner Join' and 'offered to the output that has Catch lookup inner join reject = true, which is out_no_country'."
+        },
+        {
+          "text": "States the tDBOutput action is Insert or update with batch size from context.BATCH_SIZE and commit every 10000",
+          "passed": true,
+          "evidence": "Outputs table: 'Action on data = Insert or update ... Use Batch Size ON with context.BATCH_SIZE, Commit every = 10000'."
+        },
+        {
+          "text": "Mentions tDie exit code 4 on OnSubjobError and that tDBCommit runs OnSubjobOk",
+          "passed": true,
+          "evidence": "Canvas: '--OnSubjobOk-----> [tDBCommit_1]' and '--OnSubjobError--> [tDie_1] \"Load failed: \" + tDBOutput_1_ERROR_MESSAGE, code 4'; Outputs table 'Exit code ... 4 on OnSubjobError'."
+        },
+        {
+          "text": "Flags that tDBOutput_1 has Die on error off without a reject link",
+          "passed": true,
+          "evidence": "Blocker 1: 'tDBOutput_1 has Die on error OFF and no reject link.'"
+        },
+        {
+          "text": "Lists the context parameters and distinguishes Default from PROD values, noting DB_PASS is encrypted",
+          "passed": true,
+          "evidence": "Section 6 table lists all 8 variables with separate Default and PROD columns (e.g. INPUT_DIR /data/in vs /mnt/landing/customers, DB_USER etl vs etl_prod, BATCH_SIZE 1000 vs 5000); DB_PASS typed Password with enc:system.encryption.key.v1 value and 'stored ... encrypted'."
+        },
+        {
+          "text": "Does not invent components or settings absent from the item file",
+          "passed": true,
+          "evidence": "Every component, link, label and setting cited (glob filemask, case-sensitive, order by name ASC, cursor 1000, CLOSE=false on tDBCommit, Exit JVM off, tLogRow_2 deactivated, CustomerUtils routine, log4j active, JVM args, stats/logs via project settings) was verified against the XML; status DEV / folder dwh/dimensions come from the fixture .properties file. No fabricated components or options found."
+        },
+        {
+          "text": "States that the lookup query against dim_country is re-executed on every Iterate pass because the tMap sits inside the tFileList-driven subjob",
+          "passed": true,
+          "evidence": "Section 5: 'Because the flow sits inside the tFileList Iterate, the lookup query is re-executed once per file, not once per job.'"
+        },
+        {
+          "text": "Notes that BATCH_SIZE / Use Batch Size has no effect with Insert or update (and that Commit every is ignored on an existing connection)",
+          "passed": true,
+          "evidence": "'Because Insert or update is row-by-row, Use Batch Size and the connection's reWriteBatchedInserts=true have no effect' and 'Commit every = 10000 (ignored: with an existing connection the commit is controlled by tDBConnection/tDBCommit)'."
+        },
+        {
+          "text": "Identifies the implicit tContextLoad from context.INPUT_DIR + \"/../conf/job.properties\" as a configuration/security risk for a TMC deployment",
+          "passed": true,
+          "evidence": "Section 6: Implicit Context Load from '<INPUT_DIR>/../conf/job.properties' flagged with two TMC consequences (file must exist on the Remote Engine host; can override TMC parameters) and 'Putting configuration (potentially a plaintext DB password) one level above the landing directory is also a weak place for it'; TMC section says to disable it or guard it."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 426.2,
+        "tokens": 152657,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Uses only real Talend component names and link types (e.g. tDBInput, tMap, tSnowflakeOutput or tDBOutput, OnSubjobOk, OnSubjobError, tSendMail, tDie, tPrejob, tPostjob)",
+          "passed": true,
+          "evidence": "Components named: tPrejob, tSnowflakeConnection, tDBConnection, tJava, tSnowflakeInput, tJavaRow, tDBInput, tMap, tSnowflakeOutput, tSnowflakeRow, tSnowflakeCommit, tSnowflakeRollback, tLogCatcher, tSendMail, tDie, tPostjob, tSnowflakeClose, tDBClose, tSnowflakeOutputBulkExec; links OnComponentOk, OnSubjobOk, OnSubjobError, OnComponentError, Main. All real."
+        },
+        {
+          "text": "Keeps the watermark in a control table or file that is written only after a successful load (OnSubjobOk), not in a context variable",
+          "passed": true,
+          "evidence": "Section 0: 'The watermark lives in a control table in Snowflake (ETL_CTRL.ETL_WATERMARK), not in a file on the engine and not in a context variable'; layout S4 --OnSubjobOk--> S5 tSnowflakeRow_1 'advance watermark' then S6 tSnowflakeCommit_1."
+        },
+        {
+          "text": "Shows the watermark used inside the SQL query as a Java expression with context/globalMap and proper date formatting",
+          "passed": true,
+          "evidence": "tDBInput_2 Query '... WHERE updated_at > ? AND updated_at <= ?' with PreparedStatement params from globalMap WM_LOW_EFF/WM_HIGH, plus string fallback \"... WHERE updated_at > TIMESTAMP '\" + globalMap.get(\"WM_LOW_EFF_STR\") + \"' AT TIME ZONE 'UTC' ...\" where WM_LOW_EFF_STR is TalendDate.formatDate(\"yyyy-MM-dd HH:mm:ss.SSS\", ...)."
+        },
+        {
+          "text": "Specifies Snowflake upsert settings (output action upsert/merge on order_id, batch size) or an equivalent staging + MERGE pattern",
+          "passed": true,
+          "evidence": "tSnowflakeOutput_1: 'Output Action: Upsert', 'Upsert Key Column: ORDER_ID', Table Action None; alternative tSnowflakeOutputBulkExec Upsert or staging table + MERGE ... QUALIFY ROW_NUMBER() in tSnowflakeRow. (No numeric batch size given; passes via the upsert-key and staging+MERGE clauses.)"
+        },
+        {
+          "text": "Explains Publish to Cloud (or CI Builder) then creating a TMC task on a Remote Engine with a schedule trigger and context parameter overrides",
+          "passed": true,
+          "evidence": "Section 5: 'right-click the Job > Publish to Cloud: pick the TMC environment and workspace'; 'TMC > Management > Tasks and plans > Add task' with Parameters ('context variables are discovered from the artifact. Set the environment's values'), Processing Engine = Remote Engine, Schedule 'add a trigger ... Daily ... repeat every 15 minutes ... or CRON'."
+        },
+        {
+          "text": "Puts credentials in Password-type context parameters or TMC connections rather than hard-coding them",
+          "passed": true,
+          "evidence": "Context table: PG_PASSWORD, SF_PASSWORD, SMTP_PASSWORD typed **Password**; 'Leave PROD passwords empty in the group and set them in the TMC task Parameters (masked)'."
+        },
+        {
+          "text": "Uses TMC trigger vocabulary (Once/Daily/Weekly/Monthly/CRON/Webhook), not TAC 'Simple trigger'",
+          "passed": true,
+          "evidence": "Schedule: 'either `Daily` with \"repeat every 15 minutes\" ... or `CRON`'; API payload {\"trigger\":{\"type\":\"CRON\",...}}. No 'Simple trigger' anywhere."
+        },
+        {
+          "text": "Keeps Auto Commit off on the PostgreSQL connection when relying on Use cursor streaming (or does not claim cursor streaming with auto-commit on)",
+          "passed": true,
+          "evidence": "tDBConnection_1 'Auto Commit: unchecked - required for Use cursor streaming on PostgreSQL'; tDBInput_2 'Use cursor / Cursor Size ... needs Auto Commit off on tDBConnection_1'."
+        },
+        {
+          "text": "If it mentions TMC execution statuses, uses EXECUTION_SUCCESS / EXECUTION_FAILED for task executions (lower-case execution_successful only for plans)",
+          "passed": true,
+          "evidence": "Only UI wording is used: 'TMC marks the run Execution failed', 'The run shows Execution failed with the Job's exit code 4'. No API status constant is named, so nothing incorrect; assertion satisfied (vacuously for the API-constant part)."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 185.5,
+        "tokens": 115398,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Explains the tMap NullPointerException as null data hitting a non-nullable (primitive) column or a null-dereferencing expression and gives the Nullable/guard fix",
+          "passed": true,
+          "evidence": "Section 2: 'a schema column of type Integer/Long/... with Nullable unchecked is a primitive ... A Left Outer Join lookup miss ... unboxes null -> NPE', 'A method call on a null String'; fix: 'Make every lookup column ... Nullable ... Guard expressions: row2.region_id == null ? null : ...'."
+        },
+        {
+          "text": "Explains the ClassCastException as a wrong cast on a globalMap value and names the correct cast approach",
+          "passed": true,
+          "evidence": "Section 3: 'every read is a hard cast, e.g. ((Integer)globalMap.get(...)). Somewhere in tJava_1 the code casts to Integer a value that is actually a Long'; fix: 'Object o = globalMap.get(...); long n = (o == null) ? 0L : ((Number) o).longValue();'."
+        },
+        {
+          "text": "Points out that without --context=<ContextName> the Default context runs and that --context_param only overrides individual parameters",
+          "passed": true,
+          "evidence": "Section 1: 'ORDERS_LOAD_run.sh has --context=Default baked into it; --context_param DB_HOST=prod-db only patches one variable on top of the Default (DEV) context'; fix './ORDERS_LOAD_run.sh --context=PROD --context_param DB_HOST=prod-db'."
+        },
+        {
+          "text": "Mentions that command-line context values are strings parsed to the declared type and/or implicit context load precedence",
+          "passed": true,
+          "evidence": "'all CLI values arrive as Strings and are parsed to the declared type' plus 'Implicit load runs after CLI parsing; recent versions keep --context_param values for the keys you passed' (hedged precedence)."
+        },
+        {
+          "text": "Suggests checking the launcher script / contexts folder in the export or the Studio Component/Outline view to confirm variable types",
+          "passed": true,
+          "evidence": "'Check the artifact: jobInfo.properties ... and the bundled contexts under <project>/orders_load_0_1/contexts/*.properties' and 'Check the real type in Studio's Outline view (hover the variable; dragging it inserts the right cast)'."
+        },
+        {
+          "text": "Does not recommend editing generated Java as the primary fix",
+          "passed": true,
+          "evidence": "All fixes are Studio-side (schema Nullable, tMap expressions, tJava user code, rebuild/redeploy). The Code view is used only to locate the failing line ('Ctrl+L to that line'), not to edit generated Java."
+        },
+        {
+          "text": "Gives the exported context file path as <project>/<job>_<ver>/contexts/<ContextName>.properties (no job-name prefix on the file)",
+          "passed": true,
+          "evidence": "'<project>/orders_load_0_1/contexts/*.properties' and 'contexts/Default.properties' \u2014 job folder then contexts/<ContextName>.properties with no job-name prefix on the file."
+        },
+        {
+          "text": "Recommends checking the Outline / Component view (or the component's documented return variables) to see the real type of the globalMap value behind the ClassCastException",
+          "passed": true,
+          "evidence": "Section 3 fix step 1: 'Check the real type in Studio's Outline view (hover the variable; dragging it inserts the right cast) and in the component that does the globalMap.put.'"
+        },
+        {
+          "text": "Links the wrong context to the NPE (a DEV/Default lookup target or empty value can produce the null)",
+          "passed": true,
+          "evidence": "Short version item 2: 'on the server the job connects to prod-db with DEV database/user/paths, so the lookup returns nothing ... and the first Left Outer Join miss unboxes null into an int'; section 2 repeats the wrong-context -> empty lookup -> NPE link."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "time_seconds": 275.0,
+        "tokens": 88168,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Identifies tFileList -> Iterate -> tFileInputDelimited as a per-file loop and names the globalMap CURRENT_FILEPATH variable",
+          "passed": true,
+          "evidence": "Flow diagram: 'tFileList_1 \"list_csv\" ... | Iterate (sequential, not parallel) v tFileInputDelimited_1 \"read_customers\" file = tFileList_1_CURRENT_FILEPATH'; 'Files are processed one at a time in name order'."
+        },
+        {
+          "text": "Describes the tMap lookup as an inner join with Unique match / Load once and notes out_no_country catches inner-join rejects",
+          "passed": true,
+          "evidence": "'Lookup join (lkp): Mode Load once, Unique match, Inner join' and 'out_no_country (\"Catch lookup inner join reject\"): customer_id + raw country_code for rows with no country match'."
+        },
+        {
+          "text": "States the tDBOutput action is Insert or update with batch size from context.BATCH_SIZE and commit every 10000",
+          "passed": true,
+          "evidence": "Diagram: 'tDBOutput_1 \"dim_customer\" INSERT_OR_UPDATE on key customer_id, table action NONE, die-on-error OFF, batch = context.BATCH_SIZE, commit every 10000' (uses the XML token INSERT_OR_UPDATE; later prose says 'upserted')."
+        },
+        {
+          "text": "Mentions tDie exit code 4 on OnSubjobError and that tDBCommit runs OnSubjobOk",
+          "passed": true,
+          "evidence": "'tFileList_1 --OnSubjobOk-----> tDBCommit_1 (single commit after ALL files ...)' and 'tFileList_1 --OnSubjobError--> tDie_1 exit code 4'."
+        },
+        {
+          "text": "Flags that tDBOutput_1 has Die on error off without a reject link",
+          "passed": true,
+          "evidence": "Blocker 1: 'tDBOutput_1 has Die on error = false and no reject link.'"
+        },
+        {
+          "text": "Lists the context parameters and distinguishes Default from PROD values, noting DB_PASS is encrypted",
+          "passed": true,
+          "evidence": "Contexts table with 'Default (dev)' and 'PROD' columns for all 8 variables; 'DB_PASS | Password | enc:system.encryption.key.v1:\u2026' and 'DB_PASS is encrypted with Studio's default key'."
+        },
+        {
+          "text": "Does not invent components or settings absent from the item file",
+          "passed": true,
+          "evidence": "All cited details checked against the XML: created/modified dates and status DEV from the fixture .properties; USE_LOG4J=false on tLogRow_1, MeterCatcher off, cursor 1000, no prompts/confirmation, CustomerUtils unused, Iterate not parallel, MULTI_THREAD_EXECATION=false. No invented components or settings found."
+        },
+        {
+          "text": "States that the lookup query against dim_country is re-executed on every Iterate pass because the tMap sits inside the tFileList-driven subjob",
+          "passed": true,
+          "evidence": "'Because the tMap sits inside the tFileList Iterate loop, \"Load once\" means once per file, not once per job \u2014 the lookup query is re-run for every CSV.'"
+        },
+        {
+          "text": "Notes that BATCH_SIZE / Use Batch Size has no effect with Insert or update (and that Commit every is ignored on an existing connection)",
+          "passed": true,
+          "evidence": "Item 8: 'INSERT_OR_UPDATE in tDBOutput is row-by-row ... Talend's batch mode does not apply to that action, so BATCH_SIZE, reWriteBatchedInserts=true, and COMMIT_EVERY are all inert'; Transaction model: 'COMMIT_EVERY=10000 on tDBOutput_1 is ignored when \"use existing connection\" is on'."
+        },
+        {
+          "text": "Identifies the implicit tContextLoad from context.INPUT_DIR + \"/../conf/job.properties\" as a configuration/security risk for a TMC deployment",
+          "passed": true,
+          "evidence": "Contexts item 1 and Blocker 5 'Hidden config override via implicit context load': the file at context.INPUT_DIR + \"/../conf/job.properties\" 'overrides any of these variables ... can override DB_HOST/DB_USER/DB_PASS too'; recommends removing it for TMC and never letting it carry credentials."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.89,
+        "passed": 8,
+        "failed": 1,
+        "total": 9,
+        "time_seconds": 260.1,
+        "tokens": 71788,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Uses only real Talend component names and link types (e.g. tDBInput, tMap, tSnowflakeOutput or tDBOutput, OnSubjobOk, OnSubjobError, tSendMail, tDie, tPrejob, tPostjob)",
+          "passed": true,
+          "evidence": "Components: tPrejob, tDBConnection, tDBInput, tJavaRow, tMap, tDBOutput, tDBRow, tDBCommit, tLogCatcher, tSendMail, tDie, tPostjob, tDBClose, tDBOutputBulkExec; links OnComponentOk, OnSubjobOk, Main, Run if. All real Talend 8 unified-DB names (Snowflake is a valid Database choice on the tDB* family)."
+        },
+        {
+          "text": "Keeps the watermark in a control table or file that is written only after a successful load (OnSubjobOk), not in a context variable",
+          "passed": true,
+          "evidence": "Design table: 'A control table in Snowflake (ETL_CTRL.JOB_WATERMARK), not a context variable or a file on the engine'; 'Subjob 4 tDBRow_SF_SaveWatermark ... linked from subjob 3 with OnSubjobOk'; 'Runtime values ... go in globalMap, not in context'."
+        },
+        {
+          "text": "Shows the watermark used inside the SQL query as a Java expression with context/globalMap and proper date formatting",
+          "passed": true,
+          "evidence": "tDBInput_PG_Orders query: \"WHERE updated_at > '\" + globalMap.get(\"wm_from\") + \"'::timestamptz AND updated_at <= '\" + globalMap.get(\"wm_to\") + \"'::timestamptz\" with wm_to produced as to_char(... 'YYYY-MM-DD HH24:MI:SS.US') || '+00'."
+        },
+        {
+          "text": "Specifies Snowflake upsert settings (output action upsert/merge on order_id, batch size) or an equivalent staging + MERGE pattern",
+          "passed": true,
+          "evidence": "Option A: 'Output Action UPSERT, Upsert Key Column ORDER_ID'; Option B: tDBOutputBulkExec to ORDERS_STG then tDBRow MERGE INTO ... QUALIFY ROW_NUMBER() ... (no numeric batch size, passes via upsert key / staging+MERGE)."
+        },
+        {
+          "text": "Explains Publish to Cloud (or CI Builder) then creating a TMC task on a Remote Engine with a schedule trigger and context parameter overrides",
+          "passed": true,
+          "evidence": "6.2 'right-click the job > Publish to Cloud' and CI Builder option; 6.3 'TMC > Management > Tasks > Add task' with Parameters ('choose context PROD; override host/user values'), Processing Runtime = Remote Engine, Run type Schedule Daily every 15 minutes."
+        },
+        {
+          "text": "Puts credentials in Password-type context parameters or TMC connections rather than hard-coding them",
+          "passed": true,
+          "evidence": "Context table: pg_password, sf_password, smtp_password typed Password; 'enter the Password-type parameters here (they are masked and encrypted). If your job uses repository DB metadata ... TMC will show them as Connections'."
+        },
+        {
+          "text": "Uses TMC trigger vocabulary (Once/Daily/Weekly/Monthly/CRON/Webhook), not TAC 'Simple trigger'",
+          "passed": true,
+          "evidence": "6.3 step 4: 'Schedule > Daily trigger, Repeat every 15 minutes ... (equivalently a Cron trigger ...)'. No 'Simple trigger'."
+        },
+        {
+          "text": "Keeps Auto Commit off on the PostgreSQL connection when relying on Use cursor streaming (or does not claim cursor streaming with auto-commit on)",
+          "passed": false,
+          "evidence": "tDBConnection_PG: 'Auto Commit: checked (we only read from PostgreSQL).' while tDBInput_PG_Orders has 'Advanced: Use cursor checked, Cursor size context.fetch_size'. PostgreSQL JDBC does not stream with a cursor when auto-commit is on, so the answer claims cursor streaming with auto-commit on."
+        },
+        {
+          "text": "If it mentions TMC execution statuses, uses EXECUTION_SUCCESS / EXECUTION_FAILED for task executions (lower-case execution_successful only for plans)",
+          "passed": true,
+          "evidence": "Only UI wording: 'TMC marks the task run Failed', 'verify the task shows Failed in TMC'. No API status constant named; nothing incorrect."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.89,
+        "passed": 8,
+        "failed": 1,
+        "total": 9,
+        "time_seconds": 184.5,
+        "tokens": 64832,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Explains the tMap NullPointerException as null data hitting a non-nullable (primitive) column or a null-dereferencing expression and gives the Nullable/guard fix",
+          "passed": true,
+          "evidence": "Section 2 table: null String method calls, arithmetic unboxing, 'output column typed int/long/double (Nullable unchecked) fed from a nullable source', Left Outer Join miss; fix: null-safe expressions and 'tick Nullable on every input and output column that can legitimately be null'."
+        },
+        {
+          "text": "Explains the ClassCastException as a wrong cast on a globalMap value and names the correct cast approach",
+          "passed": true,
+          "evidence": "Section 3: 'Integer n = (Integer) globalMap.get(\"tDBInput_2_NB_LINE\")' ... 'on the server it is a Long'; fix 'int count = (o == null) ? 0 : ((Number) o).intValue();'."
+        },
+        {
+          "text": "Points out that without --context=<ContextName> the Default context runs and that --context_param only overrides individual parameters",
+          "passed": true,
+          "evidence": "'The exported run script hard-codes --context=Default ... so the job starts with the Default/Dev values for every variable and then overrides exactly one of them, DB_HOST'; fix './ORDERS_LOAD_run.sh --context=Prod --context_param DB_HOST=prod-db'."
+        },
+        {
+          "text": "Mentions that command-line context values are strings parsed to the declared type and/or implicit context load precedence",
+          "passed": true,
+          "evidence": "Implicit load precedence stated: 'Implicit context load ... runs after the command-line parsing and overrides whatever you passed' (unhedged; see claims). String-to-type parsing of CLI values is not explicitly stated, but the assertion's 'and/or' is met by the precedence clause."
+        },
+        {
+          "text": "Suggests checking the launcher script / contexts folder in the export or the Studio Component/Outline view to confirm variable types",
+          "passed": true,
+          "evidence": "'Open the script ops are running. A Talend-exported launcher looks like this: ... --context=Default \"$@\"'; names the contexts folder '<project>/orders_load_0_1/contexts/<ContextName>.properties'. (No Outline/Component view suggestion, but the export-inspection clause is met.)"
+        },
+        {
+          "text": "Does not recommend editing generated Java as the primary fix",
+          "passed": true,
+          "evidence": "Fixes are in Studio (Nullable flags, expressions, tJava user code) followed by 'Rebuild and redeploy the zip'. The only script edit proposed is changing --context=Default in the shell launcher, which is not generated Java."
+        },
+        {
+          "text": "Gives the exported context file path as <project>/<job>_<ver>/contexts/<ContextName>.properties (no job-name prefix on the file)",
+          "passed": true,
+          "evidence": "'compiled into the job jar as <project>/orders_load_0_1/contexts/<ContextName>.properties' \u2014 job folder/contexts/<ContextName>.properties, no job-name prefix."
+        },
+        {
+          "text": "Recommends checking the Outline / Component view (or the component's documented return variables) to see the real type of the globalMap value behind the ClassCastException",
+          "passed": false,
+          "evidence": "No recommendation to check the Outline or Component view or the component's documented return variables for the globalMap value's type. The answer only says 'Declare the column type explicitly in the schema' and to compare the jar MANIFEST.MF build timestamp."
+        },
+        {
+          "text": "Links the wrong context to the NPE (a DEV/Default lookup target or empty value can produce the null)",
+          "passed": true,
+          "evidence": "'a context variable that is empty in the context the server is actually using (see 1)'; table row 'context.DEFAULT_WAREHOUSE.trim(), context.BATCH_SIZE * 2 \u2014 the variable is empty in the context actually loaded on the server'; 'it can easily cascade into the other two errors (dev credentials against a prod host ...)'."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 303.6333,
+        "stddev": 120.4112,
+        "min": 185.5,
+        "max": 426.2
+      },
+      "tokens": {
+        "mean": 137694.0,
+        "stddev": 19682.1731,
+        "min": 115398,
+        "max": 152657
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.9267,
+        "stddev": 0.0635,
+        "min": 0.89,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 239.8667,
+        "stddev": 48.5243,
+        "min": 184.5,
+        "max": 275.0
+      },
+      "tokens": {
+        "mean": 74929.3333,
+        "stddev": 11980.9518,
+        "min": 64832,
+        "max": 88168
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.07",
+      "time_seconds": "+63.8",
+      "tokens": "+62765"
+    }
+  },
+  "notes": []
+}

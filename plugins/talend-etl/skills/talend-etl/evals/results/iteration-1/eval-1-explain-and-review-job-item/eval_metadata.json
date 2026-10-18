@@ -1,0 +1,14 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-explain-and-review-job-item",
+  "prompt": "A colleague left the company and I inherited their Talend job. The only thing I have is the exported item file at fixtures/LOAD_CUSTOMERS_0.1.item (Studio 8). Explain what this job does end to end - inputs, outputs, how the lookup works, what the contexts are for - and tell me what you'd fix before we schedule it in TMC for production.",
+  "assertions": [
+    "Identifies tFileList -> Iterate -> tFileInputDelimited as a per-file loop and names the globalMap CURRENT_FILEPATH variable",
+    "Describes the tMap lookup as an inner join with Unique match / Load once and notes out_no_country catches inner-join rejects",
+    "States the tDBOutput action is Insert or update with batch size from context.BATCH_SIZE and commit every 10000",
+    "Mentions tDie exit code 4 on OnSubjobError and that tDBCommit runs OnSubjobOk",
+    "Flags that tDBOutput_1 has Die on error off without a reject link",
+    "Lists the context parameters and distinguishes Default from PROD values, noting DB_PASS is encrypted",
+    "Does not invent components or settings absent from the item file"
+  ]
+}

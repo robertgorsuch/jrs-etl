@@ -1,0 +1,13 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-troubleshoot-exported-job-failure",
+  "prompt": "Our Talend job runs fine in Studio but when ops run the exported zip on the Linux server it dies with 'Exception in component tMap_2 (ORDERS_LOAD) java.lang.NullPointerException' and sometimes 'java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer' in tJava_1. Also the context values seem wrong on the server. They run it with ./ORDERS_LOAD_run.sh --context_param DB_HOST=prod-db. What's going on and how do we fix each problem?",
+  "assertions": [
+    "Explains the tMap NullPointerException as null data hitting a non-nullable (primitive) column or a null-dereferencing expression and gives the Nullable/guard fix",
+    "Explains the ClassCastException as a wrong cast on a globalMap value and names the correct cast approach",
+    "Points out that without --context=<ContextName> the Default context runs and that --context_param only overrides individual parameters",
+    "Mentions that command-line context values are strings parsed to the declared type and/or implicit context load precedence",
+    "Suggests checking the launcher script / contexts folder in the export or the Studio Component/Outline view to confirm variable types",
+    "Does not recommend editing generated Java as the primary fix"
+  ]
+}

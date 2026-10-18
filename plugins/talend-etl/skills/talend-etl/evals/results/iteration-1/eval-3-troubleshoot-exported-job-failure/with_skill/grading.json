@@ -1,0 +1,127 @@
+{
+  "expectations": [
+    {
+      "text": "Explains the tMap NullPointerException as null data hitting a non-nullable (primitive) column or a null-dereferencing expression and gives the Nullable/guard fix",
+      "passed": true,
+      "evidence": "Section 2: 'Unboxing null into a primitive. In the schema editor, an Integer, Long, ... column with Nullable unchecked generates a primitive (int, not Integer). When a null arrives ... Java calls .intValue() on null and throws'; also lookup-miss and 'Method call on a null String'. Fix: 'tick Nullable on every lookup column you read, every optional source column' and guard examples 'row1.customer_code == null ? null : row1.customer_code.trim()'."
+    },
+    {
+      "text": "Explains the ClassCastException as a wrong cast on a globalMap value and names the correct cast approach",
+      "passed": true,
+      "evidence": "Section 3: 'globalMap is Map<String, Object>, so every read is a cast you wrote by hand ... The stored object is a java.lang.Long, the cast says Integer'. Fix: 'Object o = globalMap.get(...); long inserted = (o == null) ? 0L : ((Number) o).longValue();' and check the Outline view."
+    },
+    {
+      "text": "Points out that without --context=<ContextName> the Default context runs and that --context_param only overrides individual parameters",
+      "passed": true,
+      "evidence": "Section 1: launcher ends '--context=Default \"$@\"' so the command 'means: load the Default context group, then override exactly one variable, DB_HOST. Every other context variable ... keeps the value of the Default column'. Fix: './ORDERS_LOAD_run.sh --context=PROD --context_param DB_HOST=prod-db'."
+    },
+    {
+      "text": "Mentions that command-line context values are strings parsed to the declared type and/or implicit context load precedence",
+      "passed": true,
+      "evidence": "'All CLI values arrive as strings and are parsed to the declared type at start-up: Integer/Long parse strictly, Date expects yyyy-MM-dd HH:mm:ss by default, empty string becomes null'; precedence list: 'an explicit tContextLoad component, then Implicit Context Load ..., then --context_param, then the selected context group, then Default'."
+    },
+    {
+      "text": "Suggests checking the launcher script / contexts folder in the export or the Studio Component/Outline view to confirm variable types",
+      "passed": true,
+      "evidence": "'Open ORDERS_LOAD/ORDERS_LOAD_run.sh'; 'Look in the zip for ORDERS_LOAD/<project_lower>/orders_load_0_1/contexts/PROD.properties'; 'the Outline view (Window > Show view > Talend > Outline, hover the variable) is the only reliable source' for globalMap types; 'Check jobInfo.properties'."
+    },
+    {
+      "text": "Does not recommend editing generated Java as the primary fix",
+      "passed": true,
+      "evidence": "All fixes are in Studio (tMap schema Nullable, guarded expressions, tJava cast change, rebuild/redeploy). Generated Java is used only to locate the line: 'Open the job in Studio, Code view, Ctrl+L to line NNNN'. No suggestion to patch the .java in the export."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 14311
+  },
+  "timing": {
+    "executor_duration_seconds": 274.0
+  },
+  "claims": [
+    {
+      "claim": "Studio exports only the contexts ticked under 'Context scripts' in Build Job; if PROD.properties is missing the job prints 'Could not find the context PROD' and continues with defaults",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches the generated code's behaviour when a context properties file is absent."
+    },
+    {
+      "claim": "Context files live at <job>/<project_lower>/<job>_<ver>/contexts/<Context>.properties",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct export layout."
+    },
+    {
+      "claim": "jobInfo.properties at the zip root has contextName= and date=",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "Precedence highest first: explicit tContextLoad > Implicit Context Load > --context_param > selected context > Default",
+      "type": "factual",
+      "verified": true,
+      "note": "Consistent with generated code order (argument parsing in main, implicit tContextLoad at job start)."
+    },
+    {
+      "claim": "Date context values default-parse with pattern yyyy-MM-dd HH:mm:ss; empty string becomes null",
+      "type": "factual",
+      "verified": true,
+      "note": "ParserUtils.parseTo_Date default pattern; empty/blank parses to null."
+    },
+    {
+      "claim": "An extracted contexts/*.properties next to the launcher overrides the copy inside the jar because the job folder is first on the classpath",
+      "type": "factual",
+      "verified": true,
+      "note": "Launcher classpath puts $ROOT_PATH before the job jar."
+    },
+    {
+      "claim": "The launcher supports --watch to show elapsed time / exit",
+      "type": "factual",
+      "verified": true,
+      "note": "Generated main() recognises --watch."
+    },
+    {
+      "claim": "An NPE in tMap is an uncaught Java exception so the job dies with exit code 1 regardless of Die on error on the input components",
+      "type": "factual",
+      "verified": null,
+      "note": "True when tMap's own 'Die on error' is on (the default, and implied by the 'Exception in component tMap_2' message); the answer omits that tMap has its own Die on error switch which would otherwise skip the row."
+    },
+    {
+      "claim": "tDBLastInsertId last_insert_id is Long; NB_LINE counters are Integer",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct per component globalMap types."
+    },
+    {
+      "claim": "The stack frame tXxx_1Process(ORDERS_LOAD.java:NNNN) names the subjob start component, not the failing component",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "The skill ships scripts/inspect_job_export.py that prints the launcher's --context, bundled context files, jobInfo.properties and lib/ drivers",
+      "type": "process",
+      "verified": true,
+      "note": "Script exists at plugins/talend-etl/skills/talend-etl/scripts/inspect_job_export.py; its exact output was not executed here."
+    },
+    {
+      "claim": "'Context scripts', 'Apply to children', 'Print operations' are the Studio labels",
+      "type": "factual",
+      "verified": true,
+      "note": "Real Build Job / Implicit Context Load options; answer also caveats to confirm in the release."
+    }
+  ],
+  "eval_critique": [
+    "All six assertions pass for both runs; the eval does not discriminate. The observable difference is accuracy of export-layout facts: without_skill names the context files 'ORDERS_LOAD/contexts/ORDERS_LOAD_<ctx>.properties', which is not how Studio names them (they are <project>/<job>_<ver>/contexts/<Context>.properties). An assertion like 'names the context properties file path correctly (contexts/<ContextName>.properties under the job folder)' would separate the two.",
+    "Assertion 5 uses 'or' across three very different checks; both answers hit the launcher/contexts part, only with_skill mentions the Outline view for globalMap types (the part that actually resolves the ClassCastException). Consider splitting it.",
+    "Assertion 6 ('does not recommend editing generated Java') is a reasonable negative check but is easy to pass; both answers correctly use the generated .java only to locate the failing line. It could be sharpened to 'locates the failing expression via the stack-trace line number / Code view and fixes it in the tMap editor'.",
+    "No assertion checks the explanation of why the bug is intermittent ('sometimes' ClassCastException) or the link between the wrong context and the NPE (a null context variable). Both answers covered it; a weaker answer would not, and the eval would not notice.",
+    "No assertion checks that the answer tells ops to verify jobInfo.properties / build date to rule out a stale export, which with_skill included and is a common real root cause."
+  ]
+}

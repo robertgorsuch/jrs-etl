@@ -1,0 +1,131 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies tFileList -> Iterate -> tFileInputDelimited as a per-file loop and names the globalMap CURRENT_FILEPATH variable",
+      "passed": true,
+      "evidence": "Flow: 'tFileList_1 \"list_csv\" | Iterate (one pass per file, sequential) v tFileInputDelimited_1 \"read_customers\"'; reader section: 'Reads globalMap(\"tFileList_1_CURRENT_FILEPATH\")'."
+    },
+    {
+      "text": "Describes the tMap lookup as an inner join with Unique match / Load once and notes out_no_country catches inner-join rejects",
+      "passed": true,
+      "evidence": "Section 3 table: 'Lookup model LOAD_ONCE', 'Match model UNIQUE_MATCH', 'Join model innerJoin=true', 'out_no_country.rejectInnerJoin=true ... routed to out_no_country (\"Catch lookup inner join reject\")'."
+    },
+    {
+      "text": "States the tDBOutput action is Insert or update with batch size from context.BATCH_SIZE and commit every 10000",
+      "passed": true,
+      "evidence": "'data action Insert or update, update key customer_id ..., batch mode on with batch size context.BATCH_SIZE, \"commit every 10000\" (ignored when using an existing connection)'."
+    },
+    {
+      "text": "Mentions tDie exit code 4 on OnSubjobError and that tDBCommit runs OnSubjobOk",
+      "passed": true,
+      "evidence": "'tFileList_1 --OnSubjobOk--> tDBCommit_1: fires once after all files' and 'tFileList_1 --OnSubjobError--> tDie_1: message ..., exit code 4, priority 5, \"exit JVM immediately\" off'."
+    },
+    {
+      "text": "Flags that tDBOutput_1 has Die on error off without a reject link",
+      "passed": true,
+      "evidence": "Blocker 1: 'tDBOutput_1 has die-on-error OFF inside a single manual transaction ... Also, because batch mode is on, the tDBOutput reject link is unavailable, so there is no way to catch those rows anyway.' Fix: 'set DIE_ON_ERROR=true on tDBOutput_1'."
+    },
+    {
+      "text": "Lists the context parameters and distinguishes Default from PROD values, noting DB_PASS is encrypted",
+      "passed": true,
+      "evidence": "Section 4 table with Default and PROD columns for all 8 variables; 'DB_PASS | Password | encrypted | encrypted'; 'Both passwords are encrypted with system.encryption.key.v1 - Studio's built-in default key'."
+    },
+    {
+      "text": "Does not invent components or settings absent from the item file",
+      "passed": true,
+      "evidence": "All components, connections and parameters cited (POSTGRESQL_12, schema public, reWriteBatchedInserts, REMOVE_EMPTY_ROW, CHECK_FIELDS_NUM, cursor 1000, ROWS_BUFFER_SIZE 2000000, PARALLELIZE_UNIT_SIZE, ON_METERCATCHER off, USE_LOG4J false on tLogRow_1, PRIORITY 5, EXIT_JVM false, note text, .properties metadata) are present in the item/.properties files. Suggested additions (tDBRollback, tFileCopy, tLogCatcher) are framed as fixes. No invented components or settings found; the answer explicitly says 'the export only lists customer_id' for field options."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 20677
+  },
+  "timing": {
+    "executor_duration_seconds": 301.7
+  },
+  "claims": [
+    {
+      "claim": "Lookup model LOAD_ONCE: dim_country is queried once per job run and is NOT re-read for every file in the Iterate loop",
+      "type": "factual",
+      "verified": false,
+      "note": "Wrong. The lookup tDBInput_1 belongs to the subjob started by tFileInputDelimited_1, which is re-executed on each Iterate pass, so the lookup is reloaded once per file. 'Load once' is relative to one tMap execution (vs Reload at each row), not to the job. The with_skill answer states this correctly."
+    },
+    {
+      "claim": "tDBOutput_1 runs in batch mode with batch size context.BATCH_SIZE; 'Insert or update' issues a SELECT per row before batching the insert/update",
+      "type": "factual",
+      "verified": false,
+      "note": "Per tDBOutput docs 'Use Batch Size' is only available for Insert, Update and Delete; Insert or update is executed row by row (existence check + INSERT/UPDATE) and is not batched. The answer treats batching as effective and only questions reWriteBatchedInserts."
+    },
+    {
+      "claim": "Unique match: take the single (last) matching lookup row",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches Talend docs."
+    },
+    {
+      "claim": "Implicit tContextLoad runs after --context_param values are applied, so a value in that file wins over TMC task parameters",
+      "type": "factual",
+      "verified": true,
+      "note": "Consistent with generated-code order (argument parsing in main, implicit tContextLoad block at job start). Stated more definitely than the with_skill answer, and correct."
+    },
+    {
+      "claim": "PostgreSQL aborts the whole transaction on the first SQL error; COMMIT of an aborted transaction is a no-op rollback, so the job can exit 0 having loaded nothing",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct PostgreSQL semantics; strong and accurate finding."
+    },
+    {
+      "claim": "Because batch mode is on, the tDBOutput reject link is unavailable",
+      "type": "factual",
+      "verified": true,
+      "note": "Reject link requires Use Batch Size unchecked."
+    },
+    {
+      "claim": "tLogRow in TABLE mode buffers every row in memory and prints at the end",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct behaviour of tLogRow Table mode."
+    },
+    {
+      "claim": "Job created 2026-05-02, modified 2026-09-18, status DEV, folder dwh/dimensions, note text on canvas",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches LOAD_CUSTOMERS_0.1.properties and the <note> element."
+    },
+    {
+      "claim": "ON_METERCATCHER is off, so no row counts are captured",
+      "type": "factual",
+      "verified": true,
+      "note": "ON_METERCATCHER_FLAG=false in the XML."
+    },
+    {
+      "claim": "In TMC: publish the artifact, select context PROD, override DB_PASS as task parameter",
+      "type": "factual",
+      "verified": null,
+      "note": "Whether TMC exposes a context selector on the task (vs. only parameter overrides from the default context) could not be verified."
+    },
+    {
+      "claim": "Studio Run-tab JVM args are not part of the built artifact; set them on the TMC task",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "StringHandling.UPCASE(null) throws NullPointerException; tDie message would then be 'Load failed: null'",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct reasoning: tDBOutput_1_ERROR_MESSAGE is null when the failure is in tMap."
+    }
+  ],
+  "eval_critique": [
+    "Assertions 1-6 are all directly readable from the XML; both runs (with and without the skill) satisfy all seven, so this eval does not discriminate. The real differences between the answers are in Talend semantics that no assertion checks: whether a Load-once lookup inside an Iterate is reloaded per file (with_skill: yes, correct; without_skill: 'not re-read', wrong), and whether 'Use Batch Size' applies to Insert-or-update (with_skill: no, per docs; without_skill treats batch as active). Consider adding an assertion such as 'States that the lookup is re-loaded on every Iterate pass (tDBInput_1 runs once per file)' and 'Notes that batch mode does not apply to Insert or update'.",
+    "Assertion 7 ('does not invent components or settings') is important but almost unfalsifiable from answer.md alone without a grader who re-reads the XML; it passed for both runs. It could be sharpened by listing concrete traps, e.g. 'does not claim a tDBRollback, tLogCatcher or tDBOutput reject link exists in the job'.",
+    "Assertion 3 asks the answer to state the batch size and 'commit every 10000' verbatim, but the item file combines USE_BATCH_SIZE=true with INSERT_OR_UPDATE and an existing connection; the more valuable observation is that neither setting is actually in effect. A stronger assertion would check the answer notices 'Commit every' is ignored when 'Use an existing connection' is on.",
+    "No assertion covers the implicit tContextLoad (IMPLICIT_TCONTEXTLOAD=true, file under context.INPUT_DIR/../conf/job.properties), which is the single biggest production-readiness and security finding in this job. Both runs found it, but the eval would not notice a run that missed it."
+  ]
+}

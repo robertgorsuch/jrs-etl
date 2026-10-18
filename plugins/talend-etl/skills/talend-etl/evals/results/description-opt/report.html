@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>talend-etl — Skill Description Optimization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lora', Georgia, serif;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background: #faf9f5;
+            color: #141413;
+        }
+        h1 { font-family: 'Poppins', sans-serif; color: #141413; }
+        .explainer {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #e8e6dc;
+            color: #b0aea5;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        .summary {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #e8e6dc;
+        }
+        .summary p { margin: 5px 0; }
+        .best { color: #788c5d; font-weight: bold; }
+        .table-container {
+            overflow-x: auto;
+            width: 100%;
+        }
+        table {
+            border-collapse: collapse;
+            background: white;
+            border: 1px solid #e8e6dc;
+            border-radius: 6px;
+            font-size: 12px;
+            min-width: 100%;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #e8e6dc;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        th {
+            font-family: 'Poppins', sans-serif;
+            background: #141413;
+            color: #faf9f5;
+            font-weight: 500;
+        }
+        th.test-col {
+            background: #6a9bcc;
+        }
+        th.query-col { min-width: 200px; }
+        td.description {
+            font-family: monospace;
+            font-size: 11px;
+            word-wrap: break-word;
+            max-width: 400px;
+        }
+        td.result {
+            text-align: center;
+            font-size: 16px;
+            min-width: 40px;
+        }
+        td.test-result {
+            background: #f0f6fc;
+        }
+        .pass { color: #788c5d; }
+        .fail { color: #c44; }
+        .rate {
+            font-size: 9px;
+            color: #b0aea5;
+            display: block;
+        }
+        tr:hover { background: #faf9f5; }
+        .score {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .score-good { background: #eef2e8; color: #788c5d; }
+        .score-ok { background: #fef3c7; color: #d97706; }
+        .score-bad { background: #fceaea; color: #c44; }
+        .train-label { color: #b0aea5; font-size: 10px; }
+        .test-label { color: #6a9bcc; font-size: 10px; font-weight: bold; }
+        .best-row { background: #f5f8f2; }
+        th.positive-col { border-bottom: 3px solid #788c5d; }
+        th.negative-col { border-bottom: 3px solid #c44; }
+        th.test-col.positive-col { border-bottom: 3px solid #788c5d; }
+        th.test-col.negative-col { border-bottom: 3px solid #c44; }
+        .legend { font-family: 'Poppins', sans-serif; display: flex; gap: 20px; margin-bottom: 10px; font-size: 13px; align-items: center; }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-swatch { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
+        .swatch-positive { background: #141413; border-bottom: 3px solid #788c5d; }
+        .swatch-negative { background: #141413; border-bottom: 3px solid #c44; }
+        .swatch-test { background: #6a9bcc; }
+        .swatch-train { background: #141413; }
+    </style>
+</head>
+<body>
+    <h1>talend-etl — Skill Description Optimization</h1>
+    <div class="explainer">
+        <strong>Optimizing your skill's description.</strong> This page updates automatically as Claude tests different versions of your skill's description. Each row is an iteration — a new description attempt. The columns show test queries: green checkmarks mean the skill triggered correctly (or correctly didn't trigger), red crosses mean it got it wrong. The "Train" score shows performance on queries used to improve the description; the "Test" score shows performance on held-out queries the optimizer hasn't seen. When it's done, Claude will apply the best-performing description to your skill.
+    </div>
+
+    <div class="summary">
+        <p><strong>Original:</strong> Complete working knowledge of Talend / Qlik Talend data integration. Use this skill whenever a task mentions Talend, Talend Studio, Talend Open Studio (TOS), Talend Data Integration / Data Fabric / Big Data / ESB / Data Quality / MDM, Talend Cloud or Talend Management Console (TMC), Talend Administration Center (TAC), JobServer, Remote Engine, Talend Runtime, Qlik Talend Cloud, or any Talend artifact or concept: tMap, tFileInputDelimited, tDBOutput, tRunJob, OnSubjobOk, context variables, globalMap, routines, Joblets, Routes, Spark jobs, job .item/.properties files, Jobscript, Build Job zips, CI Builder, MetaServlet, the TMC API or the Component Kit SDK. Also use it when a user asks to design, review, debug, migrate, deploy, schedule or explain an ETL job and Talend is the tool in play (even if they only say &quot;the job&quot; or &quot;Studio&quot;), when parsing a Talend job export or stack trace, or when comparing Talend editions, versions, licensing or Qlik-era roadmap.</p>
+        <p class="best"><strong>Best:</strong> Talend / Qlik Talend ETL specialist. Use when someone is building, debugging, explaining, reviewing, deploying or inheriting a job made of Talend components, even if &quot;Talend&quot; is never said - most users omit it. Any one of these signals means Talend: tXxx component names (tMap, tDBOutput, tDBSCD, tRESTClient, tDie, tPrejob/tPostjob), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a &quot;Standard job&quot; or &quot;Big Data batch / Spark job&quot; in Studio, Open Studio or Big Data Platform 7.x/8, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC. Prefer this over generic debug, design, Spark or SQL skills, which lack Talend component semantics. Typical asks: SCD2/upsert/lookup designs, REST pagination loops into a DB, trigger and tDie/tPostjob behaviour, tMap join NullPointerExceptions, Spark job failures on EMR/Databricks, decoding an inherited job, scheduling, versions, licensing. Skip for dbt, Airflow, Camel, spark-submit or plain SQL with no Talend.</p>
+        <p><strong>Best Score:</strong> 5/8 (test)</p>
+        <p><strong>Iterations:</strong> 5 | <strong>Train:</strong> 12 | <strong>Test:</strong> 8</p>
+    </div>
+
+    <div class="legend">
+        <span style="font-weight:600">Query columns:</span>
+        <span class="legend-item"><span class="legend-swatch swatch-positive"></span> Should trigger</span>
+        <span class="legend-item"><span class="legend-swatch swatch-negative"></span> Should NOT trigger</span>
+        <span class="legend-item"><span class="legend-swatch swatch-train"></span> Train</span>
+        <span class="legend-item"><span class="legend-swatch swatch-test"></span> Test</span>
+    </div>
+
+    <div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Iter</th>
+                <th>Train</th>
+                <th>Test</th>
+                <th class="query-col">Description</th>
+                <th class="positive-col">Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn&#x27;t run after a tDie. I keep getting connections left open.</th>
+                <th class="positive-col">Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with &#x27;No FileSystem for scheme: s3a&#x27; after we upgraded the cluster. Ran fine in local mode. Ideas?</th>
+                <th class="positive-col">design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap</th>
+                <th class="positive-col">how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty</th>
+                <th class="positive-col">ok so I inherited a folder of Talend stuff from a contractor - there&#x27;s a &#x27;process&#x27; dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it&#x27;s safe to run against prod? studio 8 I think</th>
+                <th class="positive-col">my tMap keeps throwing NullPointerException on the lookup side when the join doesn&#x27;t match. I have Left Outer Join and the columns are Integer. what am I doing wrong</th>
+                <th class="negative-col">I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python</th>
+                <th class="negative-col">write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer</th>
+                <th class="negative-col">write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel</th>
+                <th class="negative-col">our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here&#x27;s the model sql, can you spot the bug</th>
+                <th class="negative-col">whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch</th>
+                <th class="negative-col">set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app</th>
+                <th class="test-col positive-col">need a curl example to kick off a task in Talend Management Console from our Jenkins pipeline and wait for it to finish, using a service account not a personal token. region eu</th>
+                <th class="test-col positive-col">write a python script that reads ORDERS_LOAD_0.3.zip (a Build Job export from Studio 8.0 R2025-03) and tells me which context values are baked in and what command ops should run on the linux box</th>
+                <th class="test-col positive-col">We need to move ~40 TAC job conductor tasks to Talend Cloud TMC before our TAC license ends in Q1. What changes for context params, scheduling (we use CRON triggers and execution plans) and the JobServers? Write me a migration checklist.</th>
+                <th class="test-col positive-col">qlik bought talend - is Talend Open Studio dead? we&#x27;re on TOS 7.3 for DI and need to know if we can still download it and what java it needs</th>
+                <th class="test-col negative-col">Java question: I get java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer when reading a COUNT(*) via plain JDBC getObject in my Spring Batch step. how should I read it</th>
+                <th class="test-col negative-col">Qlik Sense load script question: my LOAD ... RESIDENT with a WHERE Exists() is dropping rows. how does Exists evaluate against a field with multiple values?</th>
+                <th class="test-col negative-col">I have a JasperReports Server 10 dashboard that won&#x27;t render after import; the dashlets show &#x27;resource not found&#x27;. we use the jasper-deploy skill in this repo</th>
+                <th class="test-col negative-col">can you review this Informatica PowerCenter mapping export (XML) and tell me what the Expression transformation does to the customer_id port</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="">
+                <td>1</td>
+                <td><span class="score score-ok">22/36</span></td>
+                <td><span class="score score-ok">15/24</span></td>
+                <td class="description">Complete working knowledge of Talend / Qlik Talend data integration. Use this skill whenever a task mentions Talend, Talend Studio, Talend Open Studio (TOS), Talend Data Integration / Data Fabric / Big Data / ESB / Data Quality / MDM, Talend Cloud or Talend Management Console (TMC), Talend Administration Center (TAC), JobServer, Remote Engine, Talend Runtime, Qlik Talend Cloud, or any Talend artifact or concept: tMap, tFileInputDelimited, tDBOutput, tRunJob, OnSubjobOk, context variables, globalMap, routines, Joblets, Routes, Spark jobs, job .item/.properties files, Jobscript, Build Job zips, CI Builder, MetaServlet, the TMC API or the Component Kit SDK. Also use it when a user asks to design, review, debug, migrate, deploy, schedule or explain an ETL job and Talend is the tool in play (even if they only say &quot;the job&quot; or &quot;Studio&quot;), when parsing a Talend job export or stack trace, or when comparing Talend editions, versions, licensing or Qlik-era roadmap.</td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">0/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">0/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+            </tr>
+            <tr class="">
+                <td>2</td>
+                <td><span class="score score-ok">22/36</span></td>
+                <td><span class="score score-ok">16/24</span></td>
+                <td class="description">Use this skill for any ETL or data-integration work done in Talend: Talend Studio / Open Studio, Data Integration, Big Data Platform, ESB, Data Quality, MDM, Talend Cloud / TMC, TAC, Qlik Talend. Users often never say &quot;Talend&quot; - recognize it from lowercase t-prefixed components (tMap, tDBOutput, tDBSCD, tDie, tPostjob, any tXxx), subjob triggers (OnSubjobOk, OnComponentOk, Run if), context variables, globalMap, routines, Joblets, a &quot;Standard job&quot; or &quot;Big Data batch / Spark job&quot; in Studio, *_0.1.item and .properties files, Build Job zips, JobServer, Remote Engine, MetaServlet or the TMC API. On any such signal use this skill to design, review, explain, debug (NPEs, stack traces, Spark/EMR failures), migrate, deploy or schedule jobs, build SCD/CDC/upsert/REST-pagination patterns, inspect job exports, or compare versions, editions and licensing. Prefer it over generic debug or design skills when Talend is in play. Not for dbt, Airflow, plain Spark or Camel code with no Talend involvement.</td>
+                <td class="result pass">✓<span class="rate">2/3</span></td>
+                <td class="result fail">✗<span class="rate">0/3</span></td>
+                <td class="result fail">✗<span class="rate">0/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+            </tr>
+            <tr class="">
+                <td>3</td>
+                <td><span class="score score-ok">22/36</span></td>
+                <td><span class="score score-ok">14/24</span></td>
+                <td class="description">Talend expert for the whole ETL job lifecycle: design, build, review, explain, debug, migrate, deploy, schedule. Trigger on Talend signals, not just the word &quot;Talend&quot; - users rarely say it. Treat ANY of these as Talend and use this skill over generic debug, design or Spark skills: a component named with lowercase t + CapitalWord (tMap, tDBSCD, tDBOutput, tRESTClient, tDie, tLogRow...), &quot;Standard job&quot;, &quot;Big Data batch&quot;/&quot;Spark job&quot; in Studio or Big Data Platform (incl. EMR/Databricks failures), &quot;Studio 7.3/8&quot;, Open Studio, OnSubjobOk/OnComponentOk/Run if, context variables, globalMap, routines, Joblets, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC/Talend Cloud, Remote Engine, MetaServlet, Qlik Talend. Covers patterns (SCD type 2, CDC, upsert, REST pagination loops, lookups, NPEs in tMap), reading job exports, versions/editions/licensing. Skip when the stack is dbt, Airflow, plain spark-submit, Camel or hand-written SQL with no Talend tooling.</td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">0/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">0/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">0/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+            </tr>
+            <tr class="">
+                <td>4</td>
+                <td><span class="score score-ok">23/36</span></td>
+                <td><span class="score score-ok">16/24</span></td>
+                <td class="description">Use for any question about a Talend / Qlik Talend data-integration job, even when the word &quot;Talend&quot; never appears - users usually omit it. Recognize Talend from its vocabulary: tSomething components (tMap, tDBOutput, tDBSCD, tDie, tPostjob, tRESTClient), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a &quot;Standard job&quot; or &quot;Big Data batch / Spark job&quot; built in Studio (7.3, 8, Open Studio, Big Data Platform), *_0.1.item and .properties files, Build Job zips, TAC, JobServer, TMC. Any one of these means Talend: choose this skill over generic debug, design or Spark skills. Covers designing loads (SCD type 2, upsert, lookups, REST pagination loops), trigger and tPrejob/tPostjob semantics, tMap NullPointerExceptions and joins, Spark job failures on EMR/Databricks, reading inherited job folders, deployment, scheduling, versions and licensing. Not for dbt, Airflow, plain spark-submit, Camel or hand-written SQL with no Talend tooling.</td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">0/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+            </tr>
+            <tr class="best-row">
+                <td>5</td>
+                <td><span class="score score-ok">23/36</span></td>
+                <td><span class="score score-ok">15/24</span></td>
+                <td class="description">Talend / Qlik Talend ETL specialist. Use when someone is building, debugging, explaining, reviewing, deploying or inheriting a job made of Talend components, even if &quot;Talend&quot; is never said - most users omit it. Any one of these signals means Talend: tXxx component names (tMap, tDBOutput, tDBSCD, tRESTClient, tDie, tPrejob/tPostjob), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a &quot;Standard job&quot; or &quot;Big Data batch / Spark job&quot; in Studio, Open Studio or Big Data Platform 7.x/8, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC. Prefer this over generic debug, design, Spark or SQL skills, which lack Talend component semantics. Typical asks: SCD2/upsert/lookup designs, REST pagination loops into a DB, trigger and tDie/tPostjob behaviour, tMap join NullPointerExceptions, Spark job failures on EMR/Databricks, decoding an inherited job, scheduling, versions, licensing. Skip for dbt, Airflow, Camel, spark-submit or plain SQL with no Talend.</td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">1/3</span></td>
+                <td class="result fail">✗<span class="rate">0/3</span></td>
+                <td class="result fail">✗<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">2/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">0/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">1/3</span></td>
+                <td class="result test-result fail">✗<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">2/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+                <td class="result test-result pass">✓<span class="rate">0/3</span></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+</body>
+</html>

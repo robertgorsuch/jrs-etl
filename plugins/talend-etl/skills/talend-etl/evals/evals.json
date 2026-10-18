@@ -1,0 +1,63 @@
+{
+  "skill_name": "talend-etl",
+  "evals": [
+    {
+      "id": 1,
+      "name": "explain-and-review-job-item",
+      "prompt": "A colleague left the company and I inherited their Talend job. The only thing I have is the exported item file at fixtures/LOAD_CUSTOMERS_0.1.item (Studio 8). Explain what this job does end to end - inputs, outputs, how the lookup works, what the contexts are for - and tell me what you'd fix before we schedule it in TMC for production.",
+      "expected_output": "A plain-language walkthrough that correctly identifies the file-list iterate loop, the CSV read with reject link, the tMap inner-join lookup on dim_country with UPCASE key and the inner-join-reject output, the INSERT_OR_UPDATE upsert with batch/commit settings, the OnSubjobOk commit / OnSubjobError tDie exit code 4, tPrejob/tPostjob connection handling, the Default vs PROD contexts and encrypted DB_PASS; plus concrete review items (no reject capture on tDBOutput with Die on error off, upsert cost, tLogRow in flow, deactivated tLogRow_2, implicit context load path) with exact component/setting names.",
+      "files": [
+        "fixtures/LOAD_CUSTOMERS_0.1.item",
+        "fixtures/LOAD_CUSTOMERS_0.1.properties"
+      ],
+      "assertions": [
+        "Identifies tFileList -> Iterate -> tFileInputDelimited as a per-file loop and names the globalMap CURRENT_FILEPATH variable",
+        "Describes the tMap lookup as an inner join with Unique match / Load once and notes out_no_country catches inner-join rejects",
+        "States the tDBOutput action is Insert or update with batch size from context.BATCH_SIZE and commit every 10000",
+        "Mentions tDie exit code 4 on OnSubjobError and that tDBCommit runs OnSubjobOk",
+        "Flags that tDBOutput_1 has Die on error off without a reject link",
+        "Lists the context parameters and distinguishes Default from PROD values, noting DB_PASS is encrypted",
+        "Does not invent components or settings absent from the item file",
+        "States that the lookup query against dim_country is re-executed on every Iterate pass because the tMap sits inside the tFileList-driven subjob",
+        "Notes that BATCH_SIZE / Use Batch Size has no effect with Insert or update (and that Commit every is ignored on an existing connection)",
+        "Identifies the implicit tContextLoad from context.INPUT_DIR + \"/../conf/job.properties\" as a configuration/security risk for a TMC deployment"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "design-incremental-load-with-deployment",
+      "prompt": "We're on Talend Studio 8.0 (R2025-xx) with Talend Cloud. I need a Standard job that loads only new/changed orders from a PostgreSQL source table (updated_at column) into Snowflake every 15 minutes, keeps a watermark so it's restartable, upserts on order_id, and emails ops if it fails. Lay out the exact components, links, key settings and context variables, and tell me how to deploy and schedule it on a Remote Engine via TMC including how the watermark survives between runs.",
+      "expected_output": "A concrete component chain with exact Talend names (tPrejob/tDBConnection, tDBInput watermark read -> tSetGlobalVar or tFlowToIterate, parameterised SELECT with the watermark, tMap, tSnowflakeOutput or tDBOutput Snowflake with Upsert on order_id / batch settings, watermark update subjob gated by OnSubjobOk, OnSubjobError -> tSendMail + tDie, tPostjob/tDBClose), context group per environment with Password type for secrets, the Build/Publish to Cloud step, TMC task creation with Remote Engine + run profile + CRON or every-15-minutes trigger, context parameter overrides in the task, and the watermark stored in a control table (not in a context variable).",
+      "files": [],
+      "assertions": [
+        "Uses only real Talend component names and link types (e.g. tDBInput, tMap, tSnowflakeOutput or tDBOutput, OnSubjobOk, OnSubjobError, tSendMail, tDie, tPrejob, tPostjob)",
+        "Keeps the watermark in a control table or file that is written only after a successful load (OnSubjobOk), not in a context variable",
+        "Shows the watermark used inside the SQL query as a Java expression with context/globalMap and proper date formatting",
+        "Specifies Snowflake upsert settings (output action upsert/merge on order_id, batch size) or an equivalent staging + MERGE pattern",
+        "Explains Publish to Cloud (or CI Builder) then creating a TMC task on a Remote Engine with a schedule trigger and context parameter overrides",
+        "Puts credentials in Password-type context parameters or TMC connections rather than hard-coding them",
+        "Uses TMC trigger vocabulary (Once/Daily/Weekly/Monthly/CRON/Webhook), not TAC 'Simple trigger'",
+        "Keeps Auto Commit off on the PostgreSQL connection when relying on Use cursor streaming (or does not claim cursor streaming with auto-commit on)",
+        "If it mentions TMC execution statuses, uses EXECUTION_SUCCESS / EXECUTION_FAILED for task executions (lower-case execution_successful only for plans)"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "troubleshoot-exported-job-failure",
+      "prompt": "Our Talend job runs fine in Studio but when ops run the exported zip on the Linux server it dies with 'Exception in component tMap_2 (ORDERS_LOAD) java.lang.NullPointerException' and sometimes 'java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer' in tJava_1. Also the context values seem wrong on the server. They run it with ./ORDERS_LOAD_run.sh --context_param DB_HOST=prod-db. What's going on and how do we fix each problem?",
+      "expected_output": "Three diagnoses: NPE in tMap from a nullable column mapped to a primitive (or null compared with ==/method call) and the fix via Nullable checkbox / null guards; ClassCastException from casting a globalMap NB_LINE-style value to the wrong boxed type with the fix (cast to the type the component actually puts, e.g. Integer vs Long) and how to check it in the Outline/Component view; and context values wrong because --context=<name> was not passed so Default is used, plus --context_param overrides only single keys and arrive as strings, with notes on the contexts/*.properties files in the export and implicit context load precedence.",
+      "files": [],
+      "assertions": [
+        "Explains the tMap NullPointerException as null data hitting a non-nullable (primitive) column or a null-dereferencing expression and gives the Nullable/guard fix",
+        "Explains the ClassCastException as a wrong cast on a globalMap value and names the correct cast approach",
+        "Points out that without --context=<ContextName> the Default context runs and that --context_param only overrides individual parameters",
+        "Mentions that command-line context values are strings parsed to the declared type and/or implicit context load precedence",
+        "Suggests checking the launcher script / contexts folder in the export or the Studio Component/Outline view to confirm variable types",
+        "Does not recommend editing generated Java as the primary fix",
+        "Gives the exported context file path as <project>/<job>_<ver>/contexts/<ContextName>.properties (no job-name prefix on the file)",
+        "Recommends checking the Outline / Component view (or the component's documented return variables) to see the real type of the globalMap value behind the ClassCastException",
+        "Links the wrong context to the NPE (a DEV/Default lookup target or empty value can produce the null)"
+      ]
+    }
+  ]
+}

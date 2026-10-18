@@ -1,0 +1,22 @@
+[
+  {"query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think", "should_trigger": true},
+  {"query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong", "should_trigger": true},
+  {"query": "We need to move ~40 TAC job conductor tasks to Talend Cloud TMC before our TAC license ends in Q1. What changes for context params, scheduling (we use CRON triggers and execution plans) and the JobServers? Write me a migration checklist.", "should_trigger": true},
+  {"query": "write a python script that reads ORDERS_LOAD_0.3.zip (a Build Job export from Studio 8.0 R2025-03) and tells me which context values are baked in and what command ops should run on the linux box", "should_trigger": true},
+  {"query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty", "should_trigger": true},
+  {"query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?", "should_trigger": true},
+  {"query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.", "should_trigger": true},
+  {"query": "need a curl example to kick off a task in Talend Management Console from our Jenkins pipeline and wait for it to finish, using a service account not a personal token. region eu", "should_trigger": true},
+  {"query": "qlik bought talend - is Talend Open Studio dead? we're on TOS 7.3 for DI and need to know if we can still download it and what java it needs", "should_trigger": true},
+  {"query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap", "should_trigger": true},
+  {"query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug", "should_trigger": false},
+  {"query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel", "should_trigger": false},
+  {"query": "I have a JasperReports Server 10 dashboard that won't render after import; the dashlets show 'resource not found'. we use the jasper-deploy skill in this repo", "should_trigger": false},
+  {"query": "Qlik Sense load script question: my LOAD ... RESIDENT with a WHERE Exists() is dropping rows. how does Exists evaluate against a field with multiple values?", "should_trigger": false},
+  {"query": "can you review this Informatica PowerCenter mapping export (XML) and tell me what the Expression transformation does to the customer_id port", "should_trigger": false},
+  {"query": "Java question: I get java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer when reading a COUNT(*) via plain JDBC getObject in my Spring Batch step. how should I read it", "should_trigger": false},
+  {"query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app", "should_trigger": false},
+  {"query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer", "should_trigger": false},
+  {"query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python", "should_trigger": false},
+  {"query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch", "should_trigger": false}
+]

@@ -1,0 +1,121 @@
+{
+  "expectations": [
+    {
+      "text": "Uses only real Talend component names and link types (e.g. tDBInput, tMap, tSnowflakeOutput or tDBOutput, OnSubjobOk, OnSubjobError, tSendMail, tDie, tPrejob, tPostjob)",
+      "passed": true,
+      "evidence": "Components: tPrejob, tPostgresqlConnection, tSnowflakeConnection, tSnowflakeInput, tJavaRow, tPostgresqlInput, tMap, tSnowflakeOutput, tSnowflakeRow, tWarn, tSnowflakeRollback, tSendMail, tDie, tLogCatcher, tPostjob, tSnowflakeClose, tPostgresqlClose, tUniqRow, tSnowflakeOutputBulkExec. Links: OnComponentOk, OnSubjobOk, OnSubjobError, row Main. All real."
+    },
+    {
+      "text": "Keeps the watermark in a control table or file that is written only after a successful load (OnSubjobOk), not in a context variable",
+      "passed": true,
+      "evidence": "'A control table in Snowflake (ETL_CONTROL.LOAD_WATERMARK)'; '[Subjob C: extract + upsert] ... | OnSubjobOk [Subjob D: advance watermark] tSnowflakeRow_1 (MERGE control table)'; 'TMC context parameters are read-only at run time (a job cannot write them back); globalMap dies with the JVM'."
+    },
+    {
+      "text": "Shows the watermark used inside the SQL query as a Java expression with context/globalMap and proper date formatting",
+      "passed": true,
+      "evidence": "Query: '\" WHERE updated_at >  '\" + (String)globalMap.get(\"low_wm\")  + \"'::timestamptz\" + \"   AND updated_at <= '\" + (String)globalMap.get(\"high_wm\") + \"'::timestamptz\"' with context.pg_schema; the watermark string is formatted in SQL as 'YYYY-MM-DD HH24:MI:SS.FF6 TZH:TZM' / to_char(... 'YYYY-MM-DD HH24:MI:SS.US') so formatting is explicit."
+    },
+    {
+      "text": "Specifies Snowflake upsert settings (output action upsert/merge on order_id, batch size) or an equivalent staging + MERGE pattern",
+      "passed": true,
+      "evidence": "'tSnowflakeOutput_1: ... Table Action = NONE; Output Action = UPSERT; Upsert Key Column = ORDER_ID; Die on error checked'; bulk alternative 'tSnowflakeOutputBulkExec into a staging table followed by your own MERGE in tSnowflakeRow'. No batch size given (tSnowflakeOutput has none)."
+    },
+    {
+      "text": "Explains Publish to Cloud (or CI Builder) then creating a TMC task on a Remote Engine with a schedule trigger and context parameter overrides",
+      "passed": true,
+      "evidence": "Section 5: 'Right-click the job > Publish to Cloud ... appears under Management > Artifacts (For CI, the equivalent is the Talend CI Builder Maven cloud-publisher profile)'; 'Management > Engines > Add > Remote Engine ... pairing key ... etc/preauthorized.key.cfg'; 'Management > Tasks > Add task'; 'Parameters step ... override the production values'; 'Processing step. Run profile: Engine -> re-prod-etl-01'; 'Schedule. Trigger type Simple ... repeat every 15 minutes'."
+    },
+    {
+      "text": "Puts credentials in Password-type context parameters or TMC connections rather than hard-coding them",
+      "passed": true,
+      "evidence": "Context table: 'pg_password | Password', 'sf_password | Password', 'smtp_password | Password'; 'Keep real production values out of the Studio project; set them as task parameters in TMC'; key-pair auth recommended for Snowflake."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 17060
+  },
+  "timing": {
+    "executor_duration_seconds": 278.1
+  },
+  "claims": [
+    {
+      "claim": "TMC trigger type 'Simple' (start time, repeat every 15 minutes)",
+      "type": "factual",
+      "verified": false,
+      "note": "'Simple trigger' is Talend Administration Center (TAC) terminology. TMC trigger types are Once, Daily, Weekly, Monthly, CRON and Webhook; a 15-minute repeat is configured on a Daily trigger or via CRON. The skill's deployment-runtime.md lists 'Simple trigger' under TAC only."
+    },
+    {
+      "claim": "tPostgresqlConnection Advanced: Auto Commit on (read-only), while tPostgresqlInput_2 uses 'Use cursor' to stream large windows",
+      "type": "factual",
+      "verified": false,
+      "note": "Internally inconsistent: pgjdbc only uses a server-side cursor (setFetchSize) when autocommit is off; with autocommit on the whole result set is fetched into memory, so the 'streams instead of loading into memory' claim does not hold for this design. The with_skill answer gets this right."
+    },
+    {
+      "claim": "tSnowflakeOutput UPSERT stages the batch to a temp table and runs MERGE; needs CREATE TABLE on the target schema",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "Snowflake is phasing out single-factor password auth; prefer key-pair and TYPE = SERVICE users",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct as of 2025/2026."
+    },
+    {
+      "claim": "Key Pair auth on tSnowflakeConnection needs the keystore on the Remote Engine host referenced via JVM parameters",
+      "type": "factual",
+      "verified": true,
+      "note": "Talend documents key-pair auth via keystore + JVM arguments."
+    },
+    {
+      "claim": "TMC has no manual zip upload; publishing is from Studio or CI Builder/API",
+      "type": "factual",
+      "verified": true,
+      "note": "Consistent with TMC behaviour."
+    },
+    {
+      "claim": "COALESCE(TO_VARCHAR(MAX(WATERMARK_TS),...), initial) always returns one row, so the first run works without a seed",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct SQL semantics."
+    },
+    {
+      "claim": "high_wm = now() - safety_lag from the PostgreSQL clock; the next run's low_wm is exactly this run's high_wm, so no gaps",
+      "type": "quality",
+      "verified": true,
+      "note": "Sound watermark design; the lag covers late-committing transactions."
+    },
+    {
+      "claim": "Timeout 14 minutes plus 'Allow parallel runs OFF' prevents overlap on a 15-minute schedule",
+      "type": "quality",
+      "verified": true,
+      "note": "Reasonable operational guard."
+    },
+    {
+      "claim": "Transactional coupling of upsert and watermark update is optional hardening",
+      "type": "quality",
+      "verified": true,
+      "note": "Defensible given idempotent upsert; weaker than the with_skill design but not wrong."
+    },
+    {
+      "claim": "'Allow parallel runs' and 'Parameters step' are TMC task settings",
+      "type": "factual",
+      "verified": true,
+      "note": "Correspond to real TMC task configuration steps."
+    }
+  ],
+  "eval_critique": [
+    "All six assertions pass for both runs, so the eval does not discriminate. The substantive differences are in correctness details no assertion covers: the TMC execution status enum (with_skill wrote EXECUTION_SUCCESSFUL, which the skill's reference asserts but which contradicts the TMC API's EXECUTION_SUCCESS), the TMC trigger type name (without_skill wrote 'Simple', a TAC term), and the pgjdbc requirement that Auto Commit be off for 'Use cursor' to stream (without_skill turned autocommit on and still relied on cursor fetching).",
+    "Assertion 4 mentions 'batch size', but tSnowflakeOutput has no batch-size setting (it stages a file and runs COPY/MERGE). Neither answer gives one and both passed; the parenthetical should be dropped or replaced with something checkable such as 'names the Upsert Key Column'.",
+    "Assertion 2 says 'written only after a successful load (OnSubjobOk)'. Both designs satisfy it, but a stronger check would be whether the watermark upper bound is captured from the source DB clock before the extract (both did) and whether the control-table write and the MERGE are in one transaction (with_skill yes, without_skill optional). That is where restartability designs usually go wrong.",
+    "Assertion 5 bundles five things (publish, task, Remote Engine, trigger, parameter overrides); a run that does four of five would still look like a fail/pass toss-up. Splitting it would make results more informative.",
+    "No assertion checks for the 'Allow parallel run' / timeout guard on a 15-minute schedule, which both answers included and which is essential for a watermark design."
+  ]
+}

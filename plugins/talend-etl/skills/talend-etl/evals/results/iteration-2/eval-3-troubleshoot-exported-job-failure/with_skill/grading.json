@@ -1,0 +1,124 @@
+{
+  "expectations": [
+    {
+      "text": "Explains the tMap NullPointerException as null data hitting a non-nullable (primitive) column or a null-dereferencing expression and gives the Nullable/guard fix",
+      "passed": true,
+      "evidence": "Section 2: 'a schema column of type Integer/Long/... with Nullable unchecked is a primitive ... A Left Outer Join lookup miss ... unboxes null -> NPE', 'A method call on a null String'; fix: 'Make every lookup column ... Nullable ... Guard expressions: row2.region_id == null ? null : ...'."
+    },
+    {
+      "text": "Explains the ClassCastException as a wrong cast on a globalMap value and names the correct cast approach",
+      "passed": true,
+      "evidence": "Section 3: 'every read is a hard cast, e.g. ((Integer)globalMap.get(...)). Somewhere in tJava_1 the code casts to Integer a value that is actually a Long'; fix: 'Object o = globalMap.get(...); long n = (o == null) ? 0L : ((Number) o).longValue();'."
+    },
+    {
+      "text": "Points out that without --context=<ContextName> the Default context runs and that --context_param only overrides individual parameters",
+      "passed": true,
+      "evidence": "Section 1: 'ORDERS_LOAD_run.sh has --context=Default baked into it; --context_param DB_HOST=prod-db only patches one variable on top of the Default (DEV) context'; fix './ORDERS_LOAD_run.sh --context=PROD --context_param DB_HOST=prod-db'."
+    },
+    {
+      "text": "Mentions that command-line context values are strings parsed to the declared type and/or implicit context load precedence",
+      "passed": true,
+      "evidence": "'all CLI values arrive as Strings and are parsed to the declared type' plus 'Implicit load runs after CLI parsing; recent versions keep --context_param values for the keys you passed' (hedged precedence)."
+    },
+    {
+      "text": "Suggests checking the launcher script / contexts folder in the export or the Studio Component/Outline view to confirm variable types",
+      "passed": true,
+      "evidence": "'Check the artifact: jobInfo.properties ... and the bundled contexts under <project>/orders_load_0_1/contexts/*.properties' and 'Check the real type in Studio's Outline view (hover the variable; dragging it inserts the right cast)'."
+    },
+    {
+      "text": "Does not recommend editing generated Java as the primary fix",
+      "passed": true,
+      "evidence": "All fixes are Studio-side (schema Nullable, tMap expressions, tJava user code, rebuild/redeploy). The Code view is used only to locate the failing line ('Ctrl+L to that line'), not to edit generated Java."
+    },
+    {
+      "text": "Gives the exported context file path as <project>/<job>_<ver>/contexts/<ContextName>.properties (no job-name prefix on the file)",
+      "passed": true,
+      "evidence": "'<project>/orders_load_0_1/contexts/*.properties' and 'contexts/Default.properties' — job folder then contexts/<ContextName>.properties with no job-name prefix on the file."
+    },
+    {
+      "text": "Recommends checking the Outline / Component view (or the component's documented return variables) to see the real type of the globalMap value behind the ClassCastException",
+      "passed": true,
+      "evidence": "Section 3 fix step 1: 'Check the real type in Studio's Outline view (hover the variable; dragging it inserts the right cast) and in the component that does the globalMap.put.'"
+    },
+    {
+      "text": "Links the wrong context to the NPE (a DEV/Default lookup target or empty value can produce the null)",
+      "passed": true,
+      "evidence": "Short version item 2: 'on the server the job connects to prod-db with DEV database/user/paths, so the lookup returns nothing ... and the first Left Outer Join miss unboxes null into an int'; section 2 repeats the wrong-context -> empty lookup -> NPE link."
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 13400
+  },
+  "timing": {
+    "executor_duration_seconds": 185.5
+  },
+  "claims": [
+    {
+      "claim": "The exported launcher bakes --context=<build context> and appends \"$@\", so a later --context= wins",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches generated *_run.sh structure."
+    },
+    {
+      "claim": "jobInfo.properties at the zip root carries job, jobVersion, contextName, commandlineVersion",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "Context file path <project>/orders_load_0_1/contexts/<Context>.properties",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches established fact (no job-name prefix)."
+    },
+    {
+      "claim": "Recent Studio versions keep --context_param values over implicit context load for the same keys",
+      "type": "factual",
+      "verified": null,
+      "note": "Hedged ('recent versions'); release-dependent, not in the established facts."
+    },
+    {
+      "claim": "Die on error on input/output components does not catch NPE/ClassCastException raised inside tMap/tJava",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct; those are uncaught Java exceptions."
+    },
+    {
+      "claim": "tMap with Die on error unchecked exposes an ErrorReject output with errorMessage/errorStackTrace",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "A tMap Var with Nullable unchecked is a primitive",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "Used/recommended the skill scripts inspect_job_export.py and inspect_job_item.py --review",
+      "type": "process",
+      "verified": null,
+      "note": "Scripts exist in the skill's scripts/ folder; actual use cannot be confirmed without a transcript."
+    },
+    {
+      "claim": "Default exit codes: 0 ok, 1 uncaught exception, tDie default 4",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    }
+  ],
+  "eval_critique": [
+    "Assertion 8 (Outline/Component view or documented return variables for the globalMap type) was the only discriminator; without_skill offered only 'declare the column type explicitly' and 'compare MANIFEST.MF'. Keep it.",
+    "Assertion 4 is satisfied by either 'strings parsed to type' OR 'implicit load precedence'; without_skill passed via a precedence statement ('implicit context load ... overrides whatever you passed') that is unhedged and release-dependent. Consider requiring the string-parsing fact explicitly, or requiring the answer to say precedence must be confirmed in the generated code.",
+    "Assertion 5 bundles two different checks ('launcher script / contexts folder' OR 'Component/Outline view to confirm variable types'); without_skill passes on the first clause alone. Split it so the export-inspection and the type-confirmation checks are graded separately.",
+    "Assertion 6 ('does not recommend editing generated Java') is a negative check; both pass. It could be strengthened to 'fixes are applied in Studio schema/expressions and the artifact is rebuilt and redeployed', which both answers also state.",
+    "No assertion checks the null-safety claims about built-in routines: without_skill asserted StringHandling.LEN is null-safe and that StringHandling.* 'mostly tolerate nulls', which contradicts the behaviour of TRIM/UPCASE/LEN and would mislead the user in exactly the NPE scenario being debugged."
+  ]
+}

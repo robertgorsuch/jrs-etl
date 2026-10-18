@@ -1,0 +1,141 @@
+{
+  "expectations": [
+    {
+      "text": "Identifies tFileList -> Iterate -> tFileInputDelimited as a per-file loop and names the globalMap CURRENT_FILEPATH variable",
+      "passed": true,
+      "evidence": "Canvas: '[tFileList_1 \"list_csv\"] --Iterate--> [tFileInputDelimited_1 \"read_customers\"] ... file = tFileList_1_CURRENT_FILEPATH'; summary: 'iterates over every file in context.INPUT_DIR matching context.FILE_MASK'."
+    },
+    {
+      "text": "Describes the tMap lookup as an inner join with Unique match / Load once and notes out_no_country catches inner-join rejects",
+      "passed": true,
+      "evidence": "Section 5: 'Lookup Model = Load once, Match Model = Unique match, Join Model = Inner Join' and 'offered to the output that has Catch lookup inner join reject = true, which is out_no_country'."
+    },
+    {
+      "text": "States the tDBOutput action is Insert or update with batch size from context.BATCH_SIZE and commit every 10000",
+      "passed": true,
+      "evidence": "Outputs table: 'Action on data = Insert or update ... Use Batch Size ON with context.BATCH_SIZE, Commit every = 10000'."
+    },
+    {
+      "text": "Mentions tDie exit code 4 on OnSubjobError and that tDBCommit runs OnSubjobOk",
+      "passed": true,
+      "evidence": "Canvas: '--OnSubjobOk-----> [tDBCommit_1]' and '--OnSubjobError--> [tDie_1] \"Load failed: \" + tDBOutput_1_ERROR_MESSAGE, code 4'; Outputs table 'Exit code ... 4 on OnSubjobError'."
+    },
+    {
+      "text": "Flags that tDBOutput_1 has Die on error off without a reject link",
+      "passed": true,
+      "evidence": "Blocker 1: 'tDBOutput_1 has Die on error OFF and no reject link.'"
+    },
+    {
+      "text": "Lists the context parameters and distinguishes Default from PROD values, noting DB_PASS is encrypted",
+      "passed": true,
+      "evidence": "Section 6 table lists all 8 variables with separate Default and PROD columns (e.g. INPUT_DIR /data/in vs /mnt/landing/customers, DB_USER etl vs etl_prod, BATCH_SIZE 1000 vs 5000); DB_PASS typed Password with enc:system.encryption.key.v1 value and 'stored ... encrypted'."
+    },
+    {
+      "text": "Does not invent components or settings absent from the item file",
+      "passed": true,
+      "evidence": "Every component, link, label and setting cited (glob filemask, case-sensitive, order by name ASC, cursor 1000, CLOSE=false on tDBCommit, Exit JVM off, tLogRow_2 deactivated, CustomerUtils routine, log4j active, JVM args, stats/logs via project settings) was verified against the XML; status DEV / folder dwh/dimensions come from the fixture .properties file. No fabricated components or options found."
+    },
+    {
+      "text": "States that the lookup query against dim_country is re-executed on every Iterate pass because the tMap sits inside the tFileList-driven subjob",
+      "passed": true,
+      "evidence": "Section 5: 'Because the flow sits inside the tFileList Iterate, the lookup query is re-executed once per file, not once per job.'"
+    },
+    {
+      "text": "Notes that BATCH_SIZE / Use Batch Size has no effect with Insert or update (and that Commit every is ignored on an existing connection)",
+      "passed": true,
+      "evidence": "'Because Insert or update is row-by-row, Use Batch Size and the connection's reWriteBatchedInserts=true have no effect' and 'Commit every = 10000 (ignored: with an existing connection the commit is controlled by tDBConnection/tDBCommit)'."
+    },
+    {
+      "text": "Identifies the implicit tContextLoad from context.INPUT_DIR + \"/../conf/job.properties\" as a configuration/security risk for a TMC deployment",
+      "passed": true,
+      "evidence": "Section 6: Implicit Context Load from '<INPUT_DIR>/../conf/job.properties' flagged with two TMC consequences (file must exist on the Remote Engine host; can override TMC parameters) and 'Putting configuration (potentially a plaintext DB password) one level above the landing directory is also a weak place for it'; TMC section says to disable it or guard it."
+    }
+  ],
+  "summary": {
+    "passed": 10,
+    "failed": 0,
+    "total": 10,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 20923
+  },
+  "timing": {
+    "executor_duration_seconds": 299.2
+  },
+  "claims": [
+    {
+      "claim": "Unique match returns the last loaded matching lookup row",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches the established fact."
+    },
+    {
+      "claim": "With autocommit off on PostgreSQL, the first failed statement aborts the transaction so later rows fail and the final COMMIT behaves as rollback",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct PostgreSQL semantics (current transaction is aborted)."
+    },
+    {
+      "claim": "Insert or update is executed row by row so Use Batch Size and reWriteBatchedInserts have no effect",
+      "type": "factual",
+      "verified": true,
+      "note": "Consistent with the fact that Use Batch Size applies to Insert/Update/Delete only."
+    },
+    {
+      "claim": "Commit every is ignored when the component uses an existing connection",
+      "type": "factual",
+      "verified": true,
+      "note": "Consistent with established fact."
+    },
+    {
+      "claim": "Studio JVM arguments in the item are not applied by a Remote Engine; a TMC Run profile is needed",
+      "type": "factual",
+      "verified": true,
+      "note": "JOB_RUN_VM_ARGUMENTS are Studio run settings; TMC Remote Engine JVM settings come from run profiles."
+    },
+    {
+      "claim": "Password context values are stored AES-GCM encrypted and the stock system.encryption.key.v1 is identical in every Studio download",
+      "type": "factual",
+      "verified": null,
+      "note": "Default-key statement is plausible; the AES-GCM detail could not be verified here."
+    },
+    {
+      "claim": "Depending on the Studio release, implicit-load values can override --context_param values",
+      "type": "factual",
+      "verified": null,
+      "note": "Hedged; precedence is release-dependent and not covered by the project's documented facts."
+    },
+    {
+      "claim": "Parsed the XML with the skill's inspect_job_item.py --review",
+      "type": "process",
+      "verified": null,
+      "note": "No transcript; script exists in the skill but its use cannot be confirmed."
+    },
+    {
+      "claim": "Insert or update generates two statements per row on PostgreSQL (existence check then insert/update), not MERGE/ON CONFLICT",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches Talend's generated code for INSERT_OR_UPDATE; the answer hedges 'confirm in Code view'."
+    },
+    {
+      "claim": "Scorecard 11/22 below the skill's 70% readiness line",
+      "type": "quality",
+      "verified": null,
+      "note": "Depends on skill checklist; subjective scoring."
+    },
+    {
+      "claim": "A Cloud Engine cannot read /mnt/landing so a Remote Engine is required",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    }
+  ],
+  "eval_critique": [
+    "Assertions 1-6 and 8-10 were all satisfied by both configurations, so eval-1 did not discriminate in this iteration; the baseline model already knows the Iterate/Load-once and Insert-or-update/batch facts.",
+    "Assertion 7 ('does not invent components or settings') is a negative check that passes by default unless the grader catches a fabrication; it cannot distinguish a careful answer from a lucky one. Consider replacing it with a positive spot-check (e.g. 'states tLogRow_2 is deactivated', 'states tMap_1 Die on error is ON while tDBOutput_1/tFileInputDelimited_1 are OFF', 'states customer_id is Update key and not updatable').",
+    "No assertion checks the PostgreSQL aborted-transaction consequence of Die-on-error-off with autocommit off (first failed statement poisons the transaction so the final COMMIT behaves as rollback), which only one answer raised and which is the most production-relevant finding.",
+    "No assertion covers the email-filter silent drop (out_ok filter with no Catch output reject), the deactivated tLogRow_2 reject target, or the misleading tDie message ('Load failed: null'); all are concrete facts in the XML that a weaker answer would miss.",
+    "The prompt says 'the only thing I have is the exported item file' but both answers also read LOAD_CUSTOMERS_0.1.properties from the fixtures directory; if the eval intends item-only analysis, the fixture folder should not contain the .properties file."
+  ]
+}

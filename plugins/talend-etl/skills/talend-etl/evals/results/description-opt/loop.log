@@ -1,0 +1,1547 @@
+Split: 12 train, 8 test (holdout=0.4)
+
+============================================================
+Iteration 1/5
+Description: Complete working knowledge of Talend / Qlik Talend data integration. Use this skill whenever a task mentions Talend, Talend Studio, Talend Open Studio (TOS), Talend Data Integration / Data Fabric / Big Data / ESB / Data Quality / MDM, Talend Cloud or Talend Management Console (TMC), Talend Administration Center (TAC), JobServer, Remote Engine, Talend Runtime, Qlik Talend Cloud, or any Talend artifact or concept: tMap, tFileInputDelimited, tDBOutput, tRunJob, OnSubjobOk, context variables, globalMap, routines, Joblets, Routes, Spark jobs, job .item/.properties files, Jobscript, Build Job zips, CI Builder, MetaServlet, the TMC API or the Component Kit SDK. Also use it when a user asks to design, review, debug, migrate, deploy, schedule or explain an ETL job and Talend is the tool in play (even if they only say "the job" or "Studio"), when parsing a Talend job export or stack trace, or when comparing Talend editions, versions, licensing or Qlik-era roadmap.
+============================================================
+Train: 22/36 correct, precision=100% recall=22% accuracy=61% (201.0s)
+  [FAIL] rate=1/3 expected=True: Explain the difference between OnSubjobOk, OnComponentOk and
+  [FAIL] rate=0/3 expected=True: Our Spark batch job (Big Data Platform 7.3.1) fails on EMR w
+  [FAIL] rate=1/3 expected=True: design a slowly changing dimension type 2 load for dim_produ
+  [FAIL] rate=1/3 expected=True: how do i call a REST endpoint with pagination (offset/limit,
+  [FAIL] rate=1/3 expected=True: ok so I inherited a folder of Talend stuff from a contractor
+  [FAIL] rate=0/3 expected=True: my tMap keeps throwing NullPointerException on the lookup si
+  [PASS] rate=0/3 expected=False: I need to parse an XMI .ecore model exported from Eclipse EM
+  [PASS] rate=0/3 expected=False: write a SQL MERGE for Snowflake that upserts orders from a s
+  [PASS] rate=0/3 expected=False: write an Apache Camel route in Java DSL (Spring Boot 3, Came
+  [PASS] rate=0/3 expected=False: our ETL is a set of dbt models on Snowflake with an Airflow 
+  [PASS] rate=0/3 expected=False: whats the best cheap ETL tool for a 5 person startup moving 
+  [PASS] rate=0/3 expected=False: set up a Kubernetes CronJob that runs our containerized spar
+Test : 15/24 correct, precision=100% recall=25% accuracy=62% (0.0s)
+  [FAIL] rate=1/3 expected=True: need a curl example to kick off a task in Talend Management 
+  [FAIL] rate=0/3 expected=True: write a python script that reads ORDERS_LOAD_0.3.zip (a Buil
+  [FAIL] rate=1/3 expected=True: We need to move ~40 TAC job conductor tasks to Talend Cloud 
+  [FAIL] rate=1/3 expected=True: qlik bought talend - is Talend Open Studio dead? we're on TO
+  [PASS] rate=0/3 expected=False: Java question: I get java.lang.ClassCastException: java.lang
+  [PASS] rate=0/3 expected=False: Qlik Sense load script question: my LOAD ... RESIDENT with a
+  [PASS] rate=0/3 expected=False: I have a JasperReports Server 10 dashboard that won't render
+  [PASS] rate=0/3 expected=False: can you review this Informatica PowerCenter mapping export (
+
+Improving description...
+Proposed (34.6s): Use this skill for any ETL or data-integration work done in Talend: Talend Studio / Open Studio, Data Integration, Big Data Platform, ESB, Data Quality, MDM, Talend Cloud / TMC, TAC, Qlik Talend. Users often never say "Talend" - recognize it from lowercase t-prefixed components (tMap, tDBOutput, tDBSCD, tDie, tPostjob, any tXxx), subjob triggers (OnSubjobOk, OnComponentOk, Run if), context variables, globalMap, routines, Joblets, a "Standard job" or "Big Data batch / Spark job" in Studio, *_0.1.item and .properties files, Build Job zips, JobServer, Remote Engine, MetaServlet or the TMC API. On any such signal use this skill to design, review, explain, debug (NPEs, stack traces, Spark/EMR failures), migrate, deploy or schedule jobs, build SCD/CDC/upsert/REST-pagination patterns, inspect job exports, or compare versions, editions and licensing. Prefer it over generic debug or design skills when Talend is in play. Not for dbt, Airflow, plain Spark or Camel code with no Talend involvement.
+
+============================================================
+Iteration 2/5
+Description: Use this skill for any ETL or data-integration work done in Talend: Talend Studio / Open Studio, Data Integration, Big Data Platform, ESB, Data Quality, MDM, Talend Cloud / TMC, TAC, Qlik Talend. Users often never say "Talend" - recognize it from lowercase t-prefixed components (tMap, tDBOutput, tDBSCD, tDie, tPostjob, any tXxx), subjob triggers (OnSubjobOk, OnComponentOk, Run if), context variables, globalMap, routines, Joblets, a "Standard job" or "Big Data batch / Spark job" in Studio, *_0.1.item and .properties files, Build Job zips, JobServer, Remote Engine, MetaServlet or the TMC API. On any such signal use this skill to design, review, explain, debug (NPEs, stack traces, Spark/EMR failures), migrate, deploy or schedule jobs, build SCD/CDC/upsert/REST-pagination patterns, inspect job exports, or compare versions, editions and licensing. Prefer it over generic debug or design skills when Talend is in play. Not for dbt, Airflow, plain Spark or Camel code with no Talend involvement.
+============================================================
+Train: 22/36 correct, precision=100% recall=22% accuracy=61% (194.4s)
+  [FAIL] rate=0/3 expected=True: Our Spark batch job (Big Data Platform 7.3.1) fails on EMR w
+  [PASS] rate=2/3 expected=True: Explain the difference between OnSubjobOk, OnComponentOk and
+  [FAIL] rate=0/3 expected=True: design a slowly changing dimension type 2 load for dim_produ
+  [FAIL] rate=1/3 expected=True: how do i call a REST endpoint with pagination (offset/limit,
+  [FAIL] rate=1/3 expected=True: ok so I inherited a folder of Talend stuff from a contractor
+  [FAIL] rate=0/3 expected=True: my tMap keeps throwing NullPointerException on the lookup si
+  [PASS] rate=0/3 expected=False: I need to parse an XMI .ecore model exported from Eclipse EM
+  [PASS] rate=0/3 expected=False: write an Apache Camel route in Java DSL (Spring Boot 3, Came
+  [PASS] rate=0/3 expected=False: write a SQL MERGE for Snowflake that upserts orders from a s
+  [PASS] rate=0/3 expected=False: our ETL is a set of dbt models on Snowflake with an Airflow 
+  [PASS] rate=0/3 expected=False: set up a Kubernetes CronJob that runs our containerized spar
+  [PASS] rate=0/3 expected=False: whats the best cheap ETL tool for a 5 person startup moving 
+Test : 16/24 correct, precision=100% recall=33% accuracy=67% (0.0s)
+  [FAIL] rate=1/3 expected=True: need a curl example to kick off a task in Talend Management 
+  [FAIL] rate=1/3 expected=True: write a python script that reads ORDERS_LOAD_0.3.zip (a Buil
+  [FAIL] rate=1/3 expected=True: We need to move ~40 TAC job conductor tasks to Talend Cloud 
+  [FAIL] rate=1/3 expected=True: qlik bought talend - is Talend Open Studio dead? we're on TO
+  [PASS] rate=0/3 expected=False: Java question: I get java.lang.ClassCastException: java.lang
+  [PASS] rate=0/3 expected=False: Qlik Sense load script question: my LOAD ... RESIDENT with a
+  [PASS] rate=0/3 expected=False: I have a JasperReports Server 10 dashboard that won't render
+  [PASS] rate=0/3 expected=False: can you review this Informatica PowerCenter mapping export (
+
+Improving description...
+Proposed (20.0s): Talend expert for the whole ETL job lifecycle: design, build, review, explain, debug, migrate, deploy, schedule. Trigger on Talend signals, not just the word "Talend" - users rarely say it. Treat ANY of these as Talend and use this skill over generic debug, design or Spark skills: a component named with lowercase t + CapitalWord (tMap, tDBSCD, tDBOutput, tRESTClient, tDie, tLogRow...), "Standard job", "Big Data batch"/"Spark job" in Studio or Big Data Platform (incl. EMR/Databricks failures), "Studio 7.3/8", Open Studio, OnSubjobOk/OnComponentOk/Run if, context variables, globalMap, routines, Joblets, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC/Talend Cloud, Remote Engine, MetaServlet, Qlik Talend. Covers patterns (SCD type 2, CDC, upsert, REST pagination loops, lookups, NPEs in tMap), reading job exports, versions/editions/licensing. Skip when the stack is dbt, Airflow, plain spark-submit, Camel or hand-written SQL with no Talend tooling.
+
+============================================================
+Iteration 3/5
+Description: Talend expert for the whole ETL job lifecycle: design, build, review, explain, debug, migrate, deploy, schedule. Trigger on Talend signals, not just the word "Talend" - users rarely say it. Treat ANY of these as Talend and use this skill over generic debug, design or Spark skills: a component named with lowercase t + CapitalWord (tMap, tDBSCD, tDBOutput, tRESTClient, tDie, tLogRow...), "Standard job", "Big Data batch"/"Spark job" in Studio or Big Data Platform (incl. EMR/Databricks failures), "Studio 7.3/8", Open Studio, OnSubjobOk/OnComponentOk/Run if, context variables, globalMap, routines, Joblets, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC/Talend Cloud, Remote Engine, MetaServlet, Qlik Talend. Covers patterns (SCD type 2, CDC, upsert, REST pagination loops, lookups, NPEs in tMap), reading job exports, versions/editions/licensing. Skip when the stack is dbt, Airflow, plain spark-submit, Camel or hand-written SQL with no Talend tooling.
+============================================================
+Train: 22/36 correct, precision=100% recall=22% accuracy=61% (205.2s)
+  [FAIL] rate=1/3 expected=True: Explain the difference between OnSubjobOk, OnComponentOk and
+  [FAIL] rate=1/3 expected=True: Our Spark batch job (Big Data Platform 7.3.1) fails on EMR w
+  [FAIL] rate=1/3 expected=True: design a slowly changing dimension type 2 load for dim_produ
+  [FAIL] rate=0/3 expected=True: how do i call a REST endpoint with pagination (offset/limit,
+  [FAIL] rate=1/3 expected=True: ok so I inherited a folder of Talend stuff from a contractor
+  [FAIL] rate=0/3 expected=True: my tMap keeps throwing NullPointerException on the lookup si
+  [PASS] rate=0/3 expected=False: I need to parse an XMI .ecore model exported from Eclipse EM
+  [PASS] rate=0/3 expected=False: write an Apache Camel route in Java DSL (Spring Boot 3, Came
+  [PASS] rate=0/3 expected=False: write a SQL MERGE for Snowflake that upserts orders from a s
+  [PASS] rate=0/3 expected=False: our ETL is a set of dbt models on Snowflake with an Airflow 
+  [PASS] rate=0/3 expected=False: set up a Kubernetes CronJob that runs our containerized spar
+  [PASS] rate=0/3 expected=False: whats the best cheap ETL tool for a 5 person startup moving 
+Test : 14/24 correct, precision=100% recall=17% accuracy=58% (0.0s)
+  [FAIL] rate=1/3 expected=True: need a curl example to kick off a task in Talend Management 
+  [FAIL] rate=0/3 expected=True: write a python script that reads ORDERS_LOAD_0.3.zip (a Buil
+  [FAIL] rate=0/3 expected=True: We need to move ~40 TAC job conductor tasks to Talend Cloud 
+  [FAIL] rate=1/3 expected=True: qlik bought talend - is Talend Open Studio dead? we're on TO
+  [PASS] rate=0/3 expected=False: Java question: I get java.lang.ClassCastException: java.lang
+  [PASS] rate=0/3 expected=False: Qlik Sense load script question: my LOAD ... RESIDENT with a
+  [PASS] rate=0/3 expected=False: I have a JasperReports Server 10 dashboard that won't render
+  [PASS] rate=0/3 expected=False: can you review this Informatica PowerCenter mapping export (
+
+Improving description...
+Proposed (79.5s): Use for any question about a Talend / Qlik Talend data-integration job, even when the word "Talend" never appears - users usually omit it. Recognize Talend from its vocabulary: tSomething components (tMap, tDBOutput, tDBSCD, tDie, tPostjob, tRESTClient), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a "Standard job" or "Big Data batch / Spark job" built in Studio (7.3, 8, Open Studio, Big Data Platform), *_0.1.item and .properties files, Build Job zips, TAC, JobServer, TMC. Any one of these means Talend: choose this skill over generic debug, design or Spark skills. Covers designing loads (SCD type 2, upsert, lookups, REST pagination loops), trigger and tPrejob/tPostjob semantics, tMap NullPointerExceptions and joins, Spark job failures on EMR/Databricks, reading inherited job folders, deployment, scheduling, versions and licensing. Not for dbt, Airflow, plain spark-submit, Camel or hand-written SQL with no Talend tooling.
+
+============================================================
+Iteration 4/5
+Description: Use for any question about a Talend / Qlik Talend data-integration job, even when the word "Talend" never appears - users usually omit it. Recognize Talend from its vocabulary: tSomething components (tMap, tDBOutput, tDBSCD, tDie, tPostjob, tRESTClient), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a "Standard job" or "Big Data batch / Spark job" built in Studio (7.3, 8, Open Studio, Big Data Platform), *_0.1.item and .properties files, Build Job zips, TAC, JobServer, TMC. Any one of these means Talend: choose this skill over generic debug, design or Spark skills. Covers designing loads (SCD type 2, upsert, lookups, REST pagination loops), trigger and tPrejob/tPostjob semantics, tMap NullPointerExceptions and joins, Spark job failures on EMR/Databricks, reading inherited job folders, deployment, scheduling, versions and licensing. Not for dbt, Airflow, plain spark-submit, Camel or hand-written SQL with no Talend tooling.
+============================================================
+Train: 23/36 correct, precision=100% recall=28% accuracy=64% (187.0s)
+  [FAIL] rate=1/3 expected=True: Explain the difference between OnSubjobOk, OnComponentOk and
+  [FAIL] rate=1/3 expected=True: Our Spark batch job (Big Data Platform 7.3.1) fails on EMR w
+  [FAIL] rate=1/3 expected=True: design a slowly changing dimension type 2 load for dim_produ
+  [FAIL] rate=0/3 expected=True: how do i call a REST endpoint with pagination (offset/limit,
+  [FAIL] rate=1/3 expected=True: ok so I inherited a folder of Talend stuff from a contractor
+  [FAIL] rate=1/3 expected=True: my tMap keeps throwing NullPointerException on the lookup si
+  [PASS] rate=0/3 expected=False: write an Apache Camel route in Java DSL (Spring Boot 3, Came
+  [PASS] rate=0/3 expected=False: I need to parse an XMI .ecore model exported from Eclipse EM
+  [PASS] rate=0/3 expected=False: write a SQL MERGE for Snowflake that upserts orders from a s
+  [PASS] rate=0/3 expected=False: our ETL is a set of dbt models on Snowflake with an Airflow 
+  [PASS] rate=0/3 expected=False: set up a Kubernetes CronJob that runs our containerized spar
+  [PASS] rate=0/3 expected=False: whats the best cheap ETL tool for a 5 person startup moving 
+Test : 16/24 correct, precision=100% recall=33% accuracy=67% (0.0s)
+  [FAIL] rate=1/3 expected=True: need a curl example to kick off a task in Talend Management 
+  [FAIL] rate=1/3 expected=True: write a python script that reads ORDERS_LOAD_0.3.zip (a Buil
+  [FAIL] rate=1/3 expected=True: We need to move ~40 TAC job conductor tasks to Talend Cloud 
+  [FAIL] rate=1/3 expected=True: qlik bought talend - is Talend Open Studio dead? we're on TO
+  [PASS] rate=0/3 expected=False: Java question: I get java.lang.ClassCastException: java.lang
+  [PASS] rate=0/3 expected=False: Qlik Sense load script question: my LOAD ... RESIDENT with a
+  [PASS] rate=0/3 expected=False: I have a JasperReports Server 10 dashboard that won't render
+  [PASS] rate=0/3 expected=False: can you review this Informatica PowerCenter mapping export (
+
+Improving description...
+Proposed (51.1s): Talend / Qlik Talend ETL specialist. Use when someone is building, debugging, explaining, reviewing, deploying or inheriting a job made of Talend components, even if "Talend" is never said - most users omit it. Any one of these signals means Talend: tXxx component names (tMap, tDBOutput, tDBSCD, tRESTClient, tDie, tPrejob/tPostjob), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a "Standard job" or "Big Data batch / Spark job" in Studio, Open Studio or Big Data Platform 7.x/8, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC. Prefer this over generic debug, design, Spark or SQL skills, which lack Talend component semantics. Typical asks: SCD2/upsert/lookup designs, REST pagination loops into a DB, trigger and tDie/tPostjob behaviour, tMap join NullPointerExceptions, Spark job failures on EMR/Databricks, decoding an inherited job, scheduling, versions, licensing. Skip for dbt, Airflow, Camel, spark-submit or plain SQL with no Talend.
+
+============================================================
+Iteration 5/5
+Description: Talend / Qlik Talend ETL specialist. Use when someone is building, debugging, explaining, reviewing, deploying or inheriting a job made of Talend components, even if "Talend" is never said - most users omit it. Any one of these signals means Talend: tXxx component names (tMap, tDBOutput, tDBSCD, tRESTClient, tDie, tPrejob/tPostjob), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a "Standard job" or "Big Data batch / Spark job" in Studio, Open Studio or Big Data Platform 7.x/8, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC. Prefer this over generic debug, design, Spark or SQL skills, which lack Talend component semantics. Typical asks: SCD2/upsert/lookup designs, REST pagination loops into a DB, trigger and tDie/tPostjob behaviour, tMap join NullPointerExceptions, Spark job failures on EMR/Databricks, decoding an inherited job, scheduling, versions, licensing. Skip for dbt, Airflow, Camel, spark-submit or plain SQL with no Talend.
+============================================================
+Train: 23/36 correct, precision=100% recall=28% accuracy=64% (189.6s)
+  [FAIL] rate=1/3 expected=True: Our Spark batch job (Big Data Platform 7.3.1) fails on EMR w
+  [FAIL] rate=1/3 expected=True: Explain the difference between OnSubjobOk, OnComponentOk and
+  [FAIL] rate=1/3 expected=True: design a slowly changing dimension type 2 load for dim_produ
+  [FAIL] rate=0/3 expected=True: how do i call a REST endpoint with pagination (offset/limit,
+  [FAIL] rate=0/3 expected=True: ok so I inherited a folder of Talend stuff from a contractor
+  [PASS] rate=2/3 expected=True: my tMap keeps throwing NullPointerException on the lookup si
+  [PASS] rate=0/3 expected=False: I need to parse an XMI .ecore model exported from Eclipse EM
+  [PASS] rate=0/3 expected=False: write an Apache Camel route in Java DSL (Spring Boot 3, Came
+  [PASS] rate=0/3 expected=False: write a SQL MERGE for Snowflake that upserts orders from a s
+  [PASS] rate=0/3 expected=False: our ETL is a set of dbt models on Snowflake with an Airflow 
+  [PASS] rate=0/3 expected=False: set up a Kubernetes CronJob that runs our containerized spar
+  [PASS] rate=0/3 expected=False: whats the best cheap ETL tool for a 5 person startup moving 
+Test : 15/24 correct, precision=100% recall=25% accuracy=62% (0.0s)
+  [FAIL] rate=0/3 expected=True: need a curl example to kick off a task in Talend Management 
+  [FAIL] rate=1/3 expected=True: write a python script that reads ORDERS_LOAD_0.3.zip (a Buil
+  [FAIL] rate=0/3 expected=True: We need to move ~40 TAC job conductor tasks to Talend Cloud 
+  [PASS] rate=2/3 expected=True: qlik bought talend - is Talend Open Studio dead? we're on TO
+  [PASS] rate=0/3 expected=False: Java question: I get java.lang.ClassCastException: java.lang
+  [PASS] rate=0/3 expected=False: Qlik Sense load script question: my LOAD ... RESIDENT with a
+  [PASS] rate=0/3 expected=False: I have a JasperReports Server 10 dashboard that won't render
+  [PASS] rate=0/3 expected=False: can you review this Informatica PowerCenter mapping export (
+
+Max iterations reached (5).
+
+Exit reason: max_iterations (5)
+Best score: 5/8 (iteration 5)
+{
+  "exit_reason": "max_iterations (5)",
+  "original_description": "Complete working knowledge of Talend / Qlik Talend data integration. Use this skill whenever a task mentions Talend, Talend Studio, Talend Open Studio (TOS), Talend Data Integration / Data Fabric / Big Data / ESB / Data Quality / MDM, Talend Cloud or Talend Management Console (TMC), Talend Administration Center (TAC), JobServer, Remote Engine, Talend Runtime, Qlik Talend Cloud, or any Talend artifact or concept: tMap, tFileInputDelimited, tDBOutput, tRunJob, OnSubjobOk, context variables, globalMap, routines, Joblets, Routes, Spark jobs, job .item/.properties files, Jobscript, Build Job zips, CI Builder, MetaServlet, the TMC API or the Component Kit SDK. Also use it when a user asks to design, review, debug, migrate, deploy, schedule or explain an ETL job and Talend is the tool in play (even if they only say \"the job\" or \"Studio\"), when parsing a Talend job export or stack trace, or when comparing Talend editions, versions, licensing or Qlik-era roadmap.",
+  "best_description": "Talend / Qlik Talend ETL specialist. Use when someone is building, debugging, explaining, reviewing, deploying or inheriting a job made of Talend components, even if \"Talend\" is never said - most users omit it. Any one of these signals means Talend: tXxx component names (tMap, tDBOutput, tDBSCD, tRESTClient, tDie, tPrejob/tPostjob), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a \"Standard job\" or \"Big Data batch / Spark job\" in Studio, Open Studio or Big Data Platform 7.x/8, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC. Prefer this over generic debug, design, Spark or SQL skills, which lack Talend component semantics. Typical asks: SCD2/upsert/lookup designs, REST pagination loops into a DB, trigger and tDie/tPostjob behaviour, tMap join NullPointerExceptions, Spark job failures on EMR/Databricks, decoding an inherited job, scheduling, versions, licensing. Skip for dbt, Airflow, Camel, spark-submit or plain SQL with no Talend.",
+  "best_score": "5/8",
+  "best_train_score": "7/12",
+  "best_test_score": "5/8",
+  "final_description": "Talend / Qlik Talend ETL specialist. Use when someone is building, debugging, explaining, reviewing, deploying or inheriting a job made of Talend components, even if \"Talend\" is never said - most users omit it. Any one of these signals means Talend: tXxx component names (tMap, tDBOutput, tDBSCD, tRESTClient, tDie, tPrejob/tPostjob), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a \"Standard job\" or \"Big Data batch / Spark job\" in Studio, Open Studio or Big Data Platform 7.x/8, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC. Prefer this over generic debug, design, Spark or SQL skills, which lack Talend component semantics. Typical asks: SCD2/upsert/lookup designs, REST pagination loops into a DB, trigger and tDie/tPostjob behaviour, tMap join NullPointerExceptions, Spark job failures on EMR/Databricks, decoding an inherited job, scheduling, versions, licensing. Skip for dbt, Airflow, Camel, spark-submit or plain SQL with no Talend.",
+  "iterations_run": 5,
+  "holdout": 0.4,
+  "train_size": 12,
+  "test_size": 8,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Complete working knowledge of Talend / Qlik Talend data integration. Use this skill whenever a task mentions Talend, Talend Studio, Talend Open Studio (TOS), Talend Data Integration / Data Fabric / Big Data / ESB / Data Quality / MDM, Talend Cloud or Talend Management Console (TMC), Talend Administration Center (TAC), JobServer, Remote Engine, Talend Runtime, Qlik Talend Cloud, or any Talend artifact or concept: tMap, tFileInputDelimited, tDBOutput, tRunJob, OnSubjobOk, context variables, globalMap, routines, Joblets, Routes, Spark jobs, job .item/.properties files, Jobscript, Build Job zips, CI Builder, MetaServlet, the TMC API or the Component Kit SDK. Also use it when a user asks to design, review, debug, migrate, deploy, schedule or explain an ETL job and Talend is the tool in play (even if they only say \"the job\" or \"Studio\"), when parsing a Talend job export or stack trace, or when comparing Talend editions, versions, licensing or Qlik-era roadmap.",
+      "train_passed": 6,
+      "train_failed": 6,
+      "train_total": 12,
+      "train_results": [
+        {
+          "query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 4,
+      "test_failed": 4,
+      "test_total": 8,
+      "test_results": [
+        {
+          "query": "need a curl example to kick off a task in Talend Management Console from our Jenkins pipeline and wait for it to finish, using a service account not a personal token. region eu",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "write a python script that reads ORDERS_LOAD_0.3.zip (a Build Job export from Studio 8.0 R2025-03) and tells me which context values are baked in and what command ops should run on the linux box",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We need to move ~40 TAC job conductor tasks to Talend Cloud TMC before our TAC license ends in Q1. What changes for context params, scheduling (we use CRON triggers and execution plans) and the JobServers? Write me a migration checklist.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "qlik bought talend - is Talend Open Studio dead? we're on TOS 7.3 for DI and need to know if we can still download it and what java it needs",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Java question: I get java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer when reading a COUNT(*) via plain JDBC getObject in my Spring Batch step. how should I read it",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Qlik Sense load script question: my LOAD ... RESIDENT with a WHERE Exists() is dropping rows. how does Exists evaluate against a field with multiple values?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I have a JasperReports Server 10 dashboard that won't render after import; the dashlets show 'resource not found'. we use the jasper-deploy skill in this repo",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "can you review this Informatica PowerCenter mapping export (XML) and tell me what the Expression transformation does to the customer_id port",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 6,
+      "failed": 6,
+      "total": 12,
+      "results": [
+        {
+          "query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "description": "Use this skill for any ETL or data-integration work done in Talend: Talend Studio / Open Studio, Data Integration, Big Data Platform, ESB, Data Quality, MDM, Talend Cloud / TMC, TAC, Qlik Talend. Users often never say \"Talend\" - recognize it from lowercase t-prefixed components (tMap, tDBOutput, tDBSCD, tDie, tPostjob, any tXxx), subjob triggers (OnSubjobOk, OnComponentOk, Run if), context variables, globalMap, routines, Joblets, a \"Standard job\" or \"Big Data batch / Spark job\" in Studio, *_0.1.item and .properties files, Build Job zips, JobServer, Remote Engine, MetaServlet or the TMC API. On any such signal use this skill to design, review, explain, debug (NPEs, stack traces, Spark/EMR failures), migrate, deploy or schedule jobs, build SCD/CDC/upsert/REST-pagination patterns, inspect job exports, or compare versions, editions and licensing. Prefer it over generic debug or design skills when Talend is in play. Not for dbt, Airflow, plain Spark or Camel code with no Talend involvement.",
+      "train_passed": 7,
+      "train_failed": 5,
+      "train_total": 12,
+      "train_results": [
+        {
+          "query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.",
+          "should_trigger": true,
+          "trigger_rate": 0.6666666666666666,
+          "triggers": 2,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 4,
+      "test_failed": 4,
+      "test_total": 8,
+      "test_results": [
+        {
+          "query": "need a curl example to kick off a task in Talend Management Console from our Jenkins pipeline and wait for it to finish, using a service account not a personal token. region eu",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "write a python script that reads ORDERS_LOAD_0.3.zip (a Build Job export from Studio 8.0 R2025-03) and tells me which context values are baked in and what command ops should run on the linux box",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We need to move ~40 TAC job conductor tasks to Talend Cloud TMC before our TAC license ends in Q1. What changes for context params, scheduling (we use CRON triggers and execution plans) and the JobServers? Write me a migration checklist.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "qlik bought talend - is Talend Open Studio dead? we're on TOS 7.3 for DI and need to know if we can still download it and what java it needs",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Java question: I get java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer when reading a COUNT(*) via plain JDBC getObject in my Spring Batch step. how should I read it",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Qlik Sense load script question: my LOAD ... RESIDENT with a WHERE Exists() is dropping rows. how does Exists evaluate against a field with multiple values?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I have a JasperReports Server 10 dashboard that won't render after import; the dashlets show 'resource not found'. we use the jasper-deploy skill in this repo",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "can you review this Informatica PowerCenter mapping export (XML) and tell me what the Expression transformation does to the customer_id port",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 7,
+      "failed": 5,
+      "total": 12,
+      "results": [
+        {
+          "query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.",
+          "should_trigger": true,
+          "trigger_rate": 0.6666666666666666,
+          "triggers": 2,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "iteration": 3,
+      "description": "Talend expert for the whole ETL job lifecycle: design, build, review, explain, debug, migrate, deploy, schedule. Trigger on Talend signals, not just the word \"Talend\" - users rarely say it. Treat ANY of these as Talend and use this skill over generic debug, design or Spark skills: a component named with lowercase t + CapitalWord (tMap, tDBSCD, tDBOutput, tRESTClient, tDie, tLogRow...), \"Standard job\", \"Big Data batch\"/\"Spark job\" in Studio or Big Data Platform (incl. EMR/Databricks failures), \"Studio 7.3/8\", Open Studio, OnSubjobOk/OnComponentOk/Run if, context variables, globalMap, routines, Joblets, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC/Talend Cloud, Remote Engine, MetaServlet, Qlik Talend. Covers patterns (SCD type 2, CDC, upsert, REST pagination loops, lookups, NPEs in tMap), reading job exports, versions/editions/licensing. Skip when the stack is dbt, Airflow, plain spark-submit, Camel or hand-written SQL with no Talend tooling.",
+      "train_passed": 6,
+      "train_failed": 6,
+      "train_total": 12,
+      "train_results": [
+        {
+          "query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 4,
+      "test_failed": 4,
+      "test_total": 8,
+      "test_results": [
+        {
+          "query": "need a curl example to kick off a task in Talend Management Console from our Jenkins pipeline and wait for it to finish, using a service account not a personal token. region eu",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "write a python script that reads ORDERS_LOAD_0.3.zip (a Build Job export from Studio 8.0 R2025-03) and tells me which context values are baked in and what command ops should run on the linux box",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We need to move ~40 TAC job conductor tasks to Talend Cloud TMC before our TAC license ends in Q1. What changes for context params, scheduling (we use CRON triggers and execution plans) and the JobServers? Write me a migration checklist.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "qlik bought talend - is Talend Open Studio dead? we're on TOS 7.3 for DI and need to know if we can still download it and what java it needs",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Java question: I get java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer when reading a COUNT(*) via plain JDBC getObject in my Spring Batch step. how should I read it",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Qlik Sense load script question: my LOAD ... RESIDENT with a WHERE Exists() is dropping rows. how does Exists evaluate against a field with multiple values?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I have a JasperReports Server 10 dashboard that won't render after import; the dashlets show 'resource not found'. we use the jasper-deploy skill in this repo",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "can you review this Informatica PowerCenter mapping export (XML) and tell me what the Expression transformation does to the customer_id port",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 6,
+      "failed": 6,
+      "total": 12,
+      "results": [
+        {
+          "query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "iteration": 4,
+      "description": "Use for any question about a Talend / Qlik Talend data-integration job, even when the word \"Talend\" never appears - users usually omit it. Recognize Talend from its vocabulary: tSomething components (tMap, tDBOutput, tDBSCD, tDie, tPostjob, tRESTClient), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a \"Standard job\" or \"Big Data batch / Spark job\" built in Studio (7.3, 8, Open Studio, Big Data Platform), *_0.1.item and .properties files, Build Job zips, TAC, JobServer, TMC. Any one of these means Talend: choose this skill over generic debug, design or Spark skills. Covers designing loads (SCD type 2, upsert, lookups, REST pagination loops), trigger and tPrejob/tPostjob semantics, tMap NullPointerExceptions and joins, Spark job failures on EMR/Databricks, reading inherited job folders, deployment, scheduling, versions and licensing. Not for dbt, Airflow, plain spark-submit, Camel or hand-written SQL with no Talend tooling.",
+      "train_passed": 6,
+      "train_failed": 6,
+      "train_total": 12,
+      "train_results": [
+        {
+          "query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 4,
+      "test_failed": 4,
+      "test_total": 8,
+      "test_results": [
+        {
+          "query": "need a curl example to kick off a task in Talend Management Console from our Jenkins pipeline and wait for it to finish, using a service account not a personal token. region eu",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "write a python script that reads ORDERS_LOAD_0.3.zip (a Build Job export from Studio 8.0 R2025-03) and tells me which context values are baked in and what command ops should run on the linux box",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We need to move ~40 TAC job conductor tasks to Talend Cloud TMC before our TAC license ends in Q1. What changes for context params, scheduling (we use CRON triggers and execution plans) and the JobServers? Write me a migration checklist.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "qlik bought talend - is Talend Open Studio dead? we're on TOS 7.3 for DI and need to know if we can still download it and what java it needs",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Java question: I get java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer when reading a COUNT(*) via plain JDBC getObject in my Spring Batch step. how should I read it",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Qlik Sense load script question: my LOAD ... RESIDENT with a WHERE Exists() is dropping rows. how does Exists evaluate against a field with multiple values?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I have a JasperReports Server 10 dashboard that won't render after import; the dashlets show 'resource not found'. we use the jasper-deploy skill in this repo",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "can you review this Informatica PowerCenter mapping export (XML) and tell me what the Expression transformation does to the customer_id port",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 6,
+      "failed": 6,
+      "total": 12,
+      "results": [
+        {
+          "query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "iteration": 5,
+      "description": "Talend / Qlik Talend ETL specialist. Use when someone is building, debugging, explaining, reviewing, deploying or inheriting a job made of Talend components, even if \"Talend\" is never said - most users omit it. Any one of these signals means Talend: tXxx component names (tMap, tDBOutput, tDBSCD, tRESTClient, tDie, tPrejob/tPostjob), OnSubjobOk / OnComponentOk / Run if, context variables, globalMap, Joblets, routines, a \"Standard job\" or \"Big Data batch / Spark job\" in Studio, Open Studio or Big Data Platform 7.x/8, *_0.1.item + .properties folders, Build Job zips, TAC, JobServer, TMC. Prefer this over generic debug, design, Spark or SQL skills, which lack Talend component semantics. Typical asks: SCD2/upsert/lookup designs, REST pagination loops into a DB, trigger and tDie/tPostjob behaviour, tMap join NullPointerExceptions, Spark job failures on EMR/Databricks, decoding an inherited job, scheduling, versions, licensing. Skip for dbt, Airflow, Camel, spark-submit or plain SQL with no Talend.",
+      "train_passed": 7,
+      "train_failed": 5,
+      "train_total": 12,
+      "train_results": [
+        {
+          "query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong",
+          "should_trigger": true,
+          "trigger_rate": 0.6666666666666666,
+          "triggers": 2,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 5,
+      "test_failed": 3,
+      "test_total": 8,
+      "test_results": [
+        {
+          "query": "need a curl example to kick off a task in Talend Management Console from our Jenkins pipeline and wait for it to finish, using a service account not a personal token. region eu",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "write a python script that reads ORDERS_LOAD_0.3.zip (a Build Job export from Studio 8.0 R2025-03) and tells me which context values are baked in and what command ops should run on the linux box",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We need to move ~40 TAC job conductor tasks to Talend Cloud TMC before our TAC license ends in Q1. What changes for context params, scheduling (we use CRON triggers and execution plans) and the JobServers? Write me a migration checklist.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "qlik bought talend - is Talend Open Studio dead? we're on TOS 7.3 for DI and need to know if we can still download it and what java it needs",
+          "should_trigger": true,
+          "trigger_rate": 0.6666666666666666,
+          "triggers": 2,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Java question: I get java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer when reading a COUNT(*) via plain JDBC getObject in my Spring Batch step. how should I read it",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Qlik Sense load script question: my LOAD ... RESIDENT with a WHERE Exists() is dropping rows. how does Exists evaluate against a field with multiple values?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I have a JasperReports Server 10 dashboard that won't render after import; the dashlets show 'resource not found'. we use the jasper-deploy skill in this repo",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "can you review this Informatica PowerCenter mapping export (XML) and tell me what the Expression transformation does to the customer_id port",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 7,
+      "failed": 5,
+      "total": 12,
+      "results": [
+        {
+          "query": "Our Spark batch job (Big Data Platform 7.3.1) fails on EMR with 'No FileSystem for scheme: s3a' after we upgraded the cluster. Ran fine in local mode. Ideas?",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Explain the difference between OnSubjobOk, OnComponentOk and Run if, and when tPostjob does or doesn't run after a tDie. I keep getting connections left open.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "design a slowly changing dimension type 2 load for dim_product from a daily full extract in Studio, with surrogate keys, and tell me whether to use tDBSCD or do it by hand in tMap",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do i call a REST endpoint with pagination (offset/limit, JSON response) from a Standard job and land it in postgres? which components, and how do I loop until the page is empty",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "ok so I inherited a folder of Talend stuff from a contractor - there's a 'process' dir full of *_0.1.item files and a bunch of .properties next to them. can you figure out what the LOAD_DIM_CUSTOMER job actually does and whether it's safe to run against prod? studio 8 I think",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my tMap keeps throwing NullPointerException on the lookup side when the join doesn't match. I have Left Outer Join and the columns are Integer. what am I doing wrong",
+          "should_trigger": true,
+          "trigger_rate": 0.6666666666666666,
+          "triggers": 2,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I need to parse an XMI .ecore model exported from Eclipse EMF and list all EClass names with their attributes in python",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write an Apache Camel route in Java DSL (Spring Boot 3, Camel 4) that polls an SFTP folder, splits a CSV by line and posts each line to a Kafka topic. no Talend, plain camel",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a SQL MERGE for Snowflake that upserts orders from a staging table on order_id and only updates when staging.updated_at is newer",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "our ETL is a set of dbt models on Snowflake with an Airflow DAG; the incremental model for orders is double-counting rows after a backfill. here's the model sql, can you spot the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "set up a Kubernetes CronJob that runs our containerized spark-submit every 15 minutes with a watermark stored in postgres; the image is our own pyspark app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "whats the best cheap ETL tool for a 5 person startup moving data from Stripe and HubSpot into BigQuery? compare fivetran, airbyte, stitch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}
+
+Report: /tmp/claude-0/-home-user-jrs-deploy/7eaf3ef1-814c-528a-8816-cea5fe743f5c/scratchpad/talend-etl-workspace/description-opt/report.html
+Results saved to: /tmp/claude-0/-home-user-jrs-deploy/7eaf3ef1-814c-528a-8816-cea5fe743f5c/scratchpad/talend-etl-workspace/description-opt/2026-10-18_035356
+loop exit=0

@@ -1,0 +1,124 @@
+{
+  "expectations": [
+    {
+      "text": "Uses only real Talend component names and link types (e.g. tDBInput, tMap, tSnowflakeOutput or tDBOutput, OnSubjobOk, OnSubjobError, tSendMail, tDie, tPrejob, tPostjob)",
+      "passed": true,
+      "evidence": "Components: tPrejob, tDBConnection, tDBInput, tJavaRow, tMap, tDBOutput, tDBRow, tDBCommit, tLogCatcher, tSendMail, tDie, tPostjob, tDBClose, tDBOutputBulkExec; links OnComponentOk, OnSubjobOk, Main, Run if. All real Talend 8 unified-DB names (Snowflake is a valid Database choice on the tDB* family)."
+    },
+    {
+      "text": "Keeps the watermark in a control table or file that is written only after a successful load (OnSubjobOk), not in a context variable",
+      "passed": true,
+      "evidence": "Design table: 'A control table in Snowflake (ETL_CTRL.JOB_WATERMARK), not a context variable or a file on the engine'; 'Subjob 4 tDBRow_SF_SaveWatermark ... linked from subjob 3 with OnSubjobOk'; 'Runtime values ... go in globalMap, not in context'."
+    },
+    {
+      "text": "Shows the watermark used inside the SQL query as a Java expression with context/globalMap and proper date formatting",
+      "passed": true,
+      "evidence": "tDBInput_PG_Orders query: \"WHERE updated_at > '\" + globalMap.get(\"wm_from\") + \"'::timestamptz AND updated_at <= '\" + globalMap.get(\"wm_to\") + \"'::timestamptz\" with wm_to produced as to_char(... 'YYYY-MM-DD HH24:MI:SS.US') || '+00'."
+    },
+    {
+      "text": "Specifies Snowflake upsert settings (output action upsert/merge on order_id, batch size) or an equivalent staging + MERGE pattern",
+      "passed": true,
+      "evidence": "Option A: 'Output Action UPSERT, Upsert Key Column ORDER_ID'; Option B: tDBOutputBulkExec to ORDERS_STG then tDBRow MERGE INTO ... QUALIFY ROW_NUMBER() ... (no numeric batch size, passes via upsert key / staging+MERGE)."
+    },
+    {
+      "text": "Explains Publish to Cloud (or CI Builder) then creating a TMC task on a Remote Engine with a schedule trigger and context parameter overrides",
+      "passed": true,
+      "evidence": "6.2 'right-click the job > Publish to Cloud' and CI Builder option; 6.3 'TMC > Management > Tasks > Add task' with Parameters ('choose context PROD; override host/user values'), Processing Runtime = Remote Engine, Run type Schedule Daily every 15 minutes."
+    },
+    {
+      "text": "Puts credentials in Password-type context parameters or TMC connections rather than hard-coding them",
+      "passed": true,
+      "evidence": "Context table: pg_password, sf_password, smtp_password typed Password; 'enter the Password-type parameters here (they are masked and encrypted). If your job uses repository DB metadata ... TMC will show them as Connections'."
+    },
+    {
+      "text": "Uses TMC trigger vocabulary (Once/Daily/Weekly/Monthly/CRON/Webhook), not TAC 'Simple trigger'",
+      "passed": true,
+      "evidence": "6.3 step 4: 'Schedule > Daily trigger, Repeat every 15 minutes ... (equivalently a Cron trigger ...)'. No 'Simple trigger'."
+    },
+    {
+      "text": "Keeps Auto Commit off on the PostgreSQL connection when relying on Use cursor streaming (or does not claim cursor streaming with auto-commit on)",
+      "passed": false,
+      "evidence": "tDBConnection_PG: 'Auto Commit: checked (we only read from PostgreSQL).' while tDBInput_PG_Orders has 'Advanced: Use cursor checked, Cursor size context.fetch_size'. PostgreSQL JDBC does not stream with a cursor when auto-commit is on, so the answer claims cursor streaming with auto-commit on."
+    },
+    {
+      "text": "If it mentions TMC execution statuses, uses EXECUTION_SUCCESS / EXECUTION_FAILED for task executions (lower-case execution_successful only for plans)",
+      "passed": true,
+      "evidence": "Only UI wording: 'TMC marks the task run Failed', 'verify the task shows Failed in TMC'. No API status constant named; nothing incorrect."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 1,
+    "total": 9,
+    "pass_rate": 0.89
+  },
+  "execution_metrics": {
+    "output_chars": 22658
+  },
+  "timing": {
+    "executor_duration_seconds": 260.1
+  },
+  "claims": [
+    {
+      "claim": "Auto Commit can stay checked on the PostgreSQL connection while tDBInput uses Use cursor with fetch size",
+      "type": "factual",
+      "verified": false,
+      "note": "Wrong: the PostgreSQL JDBC driver only uses a server-side cursor (fetchSize) when auto-commit is off; with auto-commit on the whole result set is loaded into memory."
+    },
+    {
+      "claim": "The Snowflake output component bulk-loads through an internal stage into a temporary table and runs a MERGE",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct description of tSnowflakeOutput/tDBOutput(Snowflake) upsert mechanism."
+    },
+    {
+      "claim": "Talend Date is java.util.Date with millisecond precision while PostgreSQL timestamptz has microseconds",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "Snowflake raises a nondeterministic MERGE error when the source has duplicate keys",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct (Duplicate row detected during DML action)."
+    },
+    {
+      "claim": "CI Builder publishes with -Dcloud.publisher.token, -Dservice.url, -Dcloud.publisher.environment, -Dcloud.publisher.workspace",
+      "type": "factual",
+      "verified": null,
+      "note": "Property names approximately right but not verified (token property name may differ by version)."
+    },
+    {
+      "claim": "TMC > Processing > Engines > Add > Remote Engine",
+      "type": "factual",
+      "verified": null,
+      "note": "Older TMC navigation; current UI places Engines under Management. Not clearly wrong across versions."
+    },
+    {
+      "claim": "TMC Notifications can push to Slack/PagerDuty via webhook",
+      "type": "factual",
+      "verified": null,
+      "note": "TMC task-failure notifications are email-based; webhook as a notification channel not verified."
+    },
+    {
+      "claim": "A tDie downstream of tLogCatcher would be caught again by the same tLogCatcher",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct when Catch tDie is checked."
+    },
+    {
+      "claim": "With Die on error on every DB component the job exits non-zero after the mail is sent so TMC marks the run Failed",
+      "type": "factual",
+      "verified": true,
+      "note": "Uncaught exception yields exit code 1."
+    }
+  ],
+  "eval_critique": [
+    "Assertion 9 (TMC execution statuses) is conditional and both answers satisfied it vacuously by never naming an API status constant; it only discriminates when an answer volunteers the wrong constant. Consider rewording so the answer must state how TMC reports the failed run (and optionally the API status) to make it non-vacuous.",
+    "Assertion 4 accepts 'upsert on order_id, batch size' OR 'staging + MERGE'; neither answer gave a numeric batch size for the Snowflake output, yet both pass via the alternative clause. If batch size matters, make it a separate assertion.",
+    "Assertion 8 was the only discriminator in this eval (without_skill set Auto Commit on while enabling Use cursor). Good catch; keep it.",
+    "No assertion checks the high-watermark safety design (upper bound taken from the source clock minus a lag, or an overlap) which both answers covered and which separates a restartable design from a naive max(updated_at) one.",
+    "No assertion checks that the watermark is written on the same connection/transaction as the load (atomicity), or that Allow parallel run is disabled for a 15-minute cadence; both are production-relevant and were covered by the with_skill answer and partially by without_skill."
+  ]
+}

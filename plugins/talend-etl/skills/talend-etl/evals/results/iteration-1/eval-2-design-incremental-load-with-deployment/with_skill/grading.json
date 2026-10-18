@@ -1,0 +1,133 @@
+{
+  "expectations": [
+    {
+      "text": "Uses only real Talend component names and link types (e.g. tDBInput, tMap, tSnowflakeOutput or tDBOutput, OnSubjobOk, OnSubjobError, tSendMail, tDie, tPrejob, tPostjob)",
+      "passed": true,
+      "evidence": "Components: tPrejob, tDBConnection, tSnowflakeConnection, tSnowflakeInput, tJavaRow, tDBInput, tSnowflakeRow, tMap, tSnowflakeOutput, tSnowflakeCommit, tSendMail, tDie, tLogCatcher, tPostjob, tDBClose, tSnowflakeClose. Links: OnComponentOk, OnSubjobOk, OnSubjobError, Main (row). All exist in Talend Studio 8."
+    },
+    {
+      "text": "Keeps the watermark in a control table or file that is written only after a successful load (OnSubjobOk), not in a context variable",
+      "passed": true,
+      "evidence": "'The watermark is written after the MERGE and in the same Snowflake connection / transaction'; chain 'tDBInput_pg_orders --OnSubjobOk--> tSnowflakeRow_merge --OnComponentOk--> tSnowflakeRow_ctl_update ... --> tSnowflakeCommit_sf'; section 5: 'TMC task parameters are static configuration, a job cannot rewrite them ... A database row is the only state that is durable'."
+    },
+    {
+      "text": "Shows the watermark used inside the SQL query as a Java expression with context/globalMap and proper date formatting",
+      "passed": true,
+      "evidence": "Query: '\" WHERE updated_at >  '\" + TalendDate.formatDate(\"yyyy-MM-dd HH:mm:ss.SSS\", (java.util.Date) globalMap.get(\"WM_LOW\")) + \"'\" + \"   AND updated_at <= '\" + TalendDate.formatDate(..., (java.util.Date) globalMap.get(\"RUN_START\")) + \"'\"' with context.PG_SCHEMA/context.SRC_TABLE."
+    },
+    {
+      "text": "Specifies Snowflake upsert settings (output action upsert/merge on order_id, batch size) or an equivalent staging + MERGE pattern",
+      "passed": true,
+      "evidence": "Staging + MERGE: tSnowflakeOutput_stg 'Table Action = None; Output Action = Insert' into STG_ORDERS, then tSnowflakeRow_merge 'MERGE INTO ... ON t.ORDER_ID = s.ORDER_ID' with QUALIFY dedup; plus the alternative 'tSnowflakeOutput Output Action = Upsert, Upsert Key Column = ORDER_ID'."
+    },
+    {
+      "text": "Explains Publish to Cloud (or CI Builder) then creating a TMC task on a Remote Engine with a schedule trigger and context parameter overrides",
+      "passed": true,
+      "evidence": "Section 6: 'Right-click the job > Publish to Cloud > choose environment ... Management > Artifacts'; 'Management > Engines > Add > Remote Engine > copy the Pre-authorized key'; 'Management > Tasks and plans > Add task ... Parameters: fill DEV values ... Processing: Engine = your Remote Engine ... Schedule > Add trigger: Daily, repeat every 15 minutes ... or CRON'; promotion to PROD with parameter overrides."
+    },
+    {
+      "text": "Puts credentials in Password-type context parameters or TMC connections rather than hard-coding them",
+      "passed": true,
+      "evidence": "Context table: 'PG_PASS | Password', 'SF_PASS | Password', 'SMTP_PASS | Password'; 'no literal host/credential anywhere in the job'; 'Optionally bind the Snowflake and PostgreSQL parameters to a TMC Connection object'; key-pair auth option."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 26934
+  },
+  "timing": {
+    "executor_duration_seconds": 470.7
+  },
+  "claims": [
+    {
+      "claim": "TMC executions end in EXECUTION_SUCCESSFUL / EXECUTION_FAILED",
+      "type": "factual",
+      "verified": false,
+      "note": "The TMC Public API execution status for a successful task run is EXECUTION_SUCCESS (with EXECUTION_FAILED, EXECUTION_REJECTED, DEPLOY_FAILED, etc.). EXECUTION_SUCCESSFUL is taken from the skill's apis-sdks.md / SKILL.md, which explicitly (and, as far as I can determine, wrongly) says 'It is NOT EXECUTION_SUCCESS'. A poller matching only EXECUTION_SUCCESSFUL would never see success. The plugin's tmc_api.py accepts both strings, so the script is safe, but the reference text and this answer are not."
+    },
+    {
+      "claim": "TMC's minimum trigger spacing is 5 minutes",
+      "type": "factual",
+      "verified": null,
+      "note": "Could not verify a documented minimum interval for TMC Daily/CRON triggers."
+    },
+    {
+      "claim": "'Allow parallel run of this task' is the TMC Processing-step setting",
+      "type": "factual",
+      "verified": null,
+      "note": "Setting exists (API field parallelExecutionAllowed); exact UI label unverified."
+    },
+    {
+      "claim": "PUT /orchestration/executables/tasks/{taskId}/run-config with trigger/runtime/parallelExecutionAllowed/logLevel sets engine and schedule",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches the TMC Public API run-config endpoint and body shape."
+    },
+    {
+      "claim": "With Auto Commit off, now() is the start of the PostgreSQL transaction, a safe upper bound; Use cursor requires Auto Commit off",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct pgjdbc / PostgreSQL semantics."
+    },
+    {
+      "claim": "Snowflake DDL (TRUNCATE) auto-commits and would commit anything pending, so it is run before any DML",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct Snowflake behaviour."
+    },
+    {
+      "claim": "TalendDate.addDate(wm, -context.WATERMARK_OVERLAP_SEC, \"ss\") subtracts seconds",
+      "type": "factual",
+      "verified": true,
+      "note": "TalendDate.addDate(Date, int, String) supports 'ss'."
+    },
+    {
+      "claim": "tSnowflakeOutput Upsert mode has an 'Upsert Key Column' and generates a temp table + MERGE",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "tSnowflakeConnection Advanced has an Auto Commit option (flagged unverified by the answer)",
+      "type": "factual",
+      "verified": null,
+      "note": "Answer hedges appropriately; present on recent TCK Snowflake connection components."
+    },
+    {
+      "claim": "Management > Environments > Promotions moves artifact + task DEV -> PROD; engines are never promoted",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches TMC promotion behaviour."
+    },
+    {
+      "claim": "The Remote Engine working directory is per artifact version and not shared across a cluster, so a file watermark is unsafe",
+      "type": "factual",
+      "verified": true,
+      "note": "Reasonable and correct justification for a DB control table."
+    },
+    {
+      "claim": "The plugin's inspect_job_item.py --review and tmc_api.py can be used for review and scheduling",
+      "type": "process",
+      "verified": true,
+      "note": "Both scripts and the --review flag exist in plugins/talend-etl/skills/talend-etl/scripts/."
+    },
+    {
+      "claim": "'Simpler alternative' upsert path loses the UPDATED_AT >= guard and QUALIFY dedup",
+      "type": "quality",
+      "verified": true,
+      "note": "Accurate trade-off statement."
+    }
+  ],
+  "eval_critique": [
+    "All six assertions pass for both runs, so the eval does not discriminate. The substantive differences are in correctness details no assertion covers: the TMC execution status enum (with_skill wrote EXECUTION_SUCCESSFUL, which the skill's reference asserts but which contradicts the TMC API's EXECUTION_SUCCESS), the TMC trigger type name (without_skill wrote 'Simple', a TAC term), and the pgjdbc requirement that Auto Commit be off for 'Use cursor' to stream (without_skill turned autocommit on and still relied on cursor fetching).",
+    "Assertion 4 mentions 'batch size', but tSnowflakeOutput has no batch-size setting (it stages a file and runs COPY/MERGE). Neither answer gives one and both passed; the parenthetical should be dropped or replaced with something checkable such as 'names the Upsert Key Column'.",
+    "Assertion 2 says 'written only after a successful load (OnSubjobOk)'. Both designs satisfy it, but a stronger check would be whether the watermark upper bound is captured from the source DB clock before the extract (both did) and whether the control-table write and the MERGE are in one transaction (with_skill yes, without_skill optional). That is where restartability designs usually go wrong.",
+    "Assertion 5 bundles five things (publish, task, Remote Engine, trigger, parameter overrides); a run that does four of five would still look like a fail/pass toss-up. Splitting it would make results more informative.",
+    "No assertion checks for the 'Allow parallel run' / timeout guard on a 15-minute schedule, which both answers included and which is essential for a watermark design."
+  ]
+}

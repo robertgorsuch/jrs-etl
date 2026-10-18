@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  secret-scan:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  talend-checks:
+    name: talend-etl offline checks (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Doc/link consistency (check_docs.py)
+        run: python plugins/talend-etl/skills/talend-etl/scripts/check_docs.py
+      - name: Python unit tests (helper scripts)
+        working-directory: plugins/talend-etl/skills/talend-etl
+        run: python -m unittest -v tests/test_scripts.py
+      - name: Plugin manifest sanity
+        shell: python
+        run: |
+          import json, os
+          mp = json.load(open('.claude-plugin/marketplace.json'))
+          entry = [p for p in mp['plugins'] if p['name'] == 'talend-etl']
+          assert entry and entry[0]['source'] == './plugins/talend-etl', entry
+          pl = json.load(open('plugins/talend-etl/.claude-plugin/plugin.json'))
+          assert os.path.exists('plugins/talend-etl/skills/talend-etl/SKILL.md')
+          print('plugin', pl['name'], 'v' + pl['version'], 'manifest OK')

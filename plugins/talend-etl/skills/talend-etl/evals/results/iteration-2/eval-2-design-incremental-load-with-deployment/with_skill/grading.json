@@ -1,0 +1,136 @@
+{
+  "expectations": [
+    {
+      "text": "Uses only real Talend component names and link types (e.g. tDBInput, tMap, tSnowflakeOutput or tDBOutput, OnSubjobOk, OnSubjobError, tSendMail, tDie, tPrejob, tPostjob)",
+      "passed": true,
+      "evidence": "Components named: tPrejob, tSnowflakeConnection, tDBConnection, tJava, tSnowflakeInput, tJavaRow, tDBInput, tMap, tSnowflakeOutput, tSnowflakeRow, tSnowflakeCommit, tSnowflakeRollback, tLogCatcher, tSendMail, tDie, tPostjob, tSnowflakeClose, tDBClose, tSnowflakeOutputBulkExec; links OnComponentOk, OnSubjobOk, OnSubjobError, OnComponentError, Main. All real."
+    },
+    {
+      "text": "Keeps the watermark in a control table or file that is written only after a successful load (OnSubjobOk), not in a context variable",
+      "passed": true,
+      "evidence": "Section 0: 'The watermark lives in a control table in Snowflake (ETL_CTRL.ETL_WATERMARK), not in a file on the engine and not in a context variable'; layout S4 --OnSubjobOk--> S5 tSnowflakeRow_1 'advance watermark' then S6 tSnowflakeCommit_1."
+    },
+    {
+      "text": "Shows the watermark used inside the SQL query as a Java expression with context/globalMap and proper date formatting",
+      "passed": true,
+      "evidence": "tDBInput_2 Query '... WHERE updated_at > ? AND updated_at <= ?' with PreparedStatement params from globalMap WM_LOW_EFF/WM_HIGH, plus string fallback \"... WHERE updated_at > TIMESTAMP '\" + globalMap.get(\"WM_LOW_EFF_STR\") + \"' AT TIME ZONE 'UTC' ...\" where WM_LOW_EFF_STR is TalendDate.formatDate(\"yyyy-MM-dd HH:mm:ss.SSS\", ...)."
+    },
+    {
+      "text": "Specifies Snowflake upsert settings (output action upsert/merge on order_id, batch size) or an equivalent staging + MERGE pattern",
+      "passed": true,
+      "evidence": "tSnowflakeOutput_1: 'Output Action: Upsert', 'Upsert Key Column: ORDER_ID', Table Action None; alternative tSnowflakeOutputBulkExec Upsert or staging table + MERGE ... QUALIFY ROW_NUMBER() in tSnowflakeRow. (No numeric batch size given; passes via the upsert-key and staging+MERGE clauses.)"
+    },
+    {
+      "text": "Explains Publish to Cloud (or CI Builder) then creating a TMC task on a Remote Engine with a schedule trigger and context parameter overrides",
+      "passed": true,
+      "evidence": "Section 5: 'right-click the Job > Publish to Cloud: pick the TMC environment and workspace'; 'TMC > Management > Tasks and plans > Add task' with Parameters ('context variables are discovered from the artifact. Set the environment's values'), Processing Engine = Remote Engine, Schedule 'add a trigger ... Daily ... repeat every 15 minutes ... or CRON'."
+    },
+    {
+      "text": "Puts credentials in Password-type context parameters or TMC connections rather than hard-coding them",
+      "passed": true,
+      "evidence": "Context table: PG_PASSWORD, SF_PASSWORD, SMTP_PASSWORD typed **Password**; 'Leave PROD passwords empty in the group and set them in the TMC task Parameters (masked)'."
+    },
+    {
+      "text": "Uses TMC trigger vocabulary (Once/Daily/Weekly/Monthly/CRON/Webhook), not TAC 'Simple trigger'",
+      "passed": true,
+      "evidence": "Schedule: 'either `Daily` with \"repeat every 15 minutes\" ... or `CRON`'; API payload {\"trigger\":{\"type\":\"CRON\",...}}. No 'Simple trigger' anywhere."
+    },
+    {
+      "text": "Keeps Auto Commit off on the PostgreSQL connection when relying on Use cursor streaming (or does not claim cursor streaming with auto-commit on)",
+      "passed": true,
+      "evidence": "tDBConnection_1 'Auto Commit: unchecked - required for Use cursor streaming on PostgreSQL'; tDBInput_2 'Use cursor / Cursor Size ... needs Auto Commit off on tDBConnection_1'."
+    },
+    {
+      "text": "If it mentions TMC execution statuses, uses EXECUTION_SUCCESS / EXECUTION_FAILED for task executions (lower-case execution_successful only for plans)",
+      "passed": true,
+      "evidence": "Only UI wording is used: 'TMC marks the run Execution failed', 'The run shows Execution failed with the Job's exit code 4'. No API status constant is named, so nothing incorrect; assertion satisfied (vacuously for the API-constant part)."
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 27564
+  },
+  "timing": {
+    "executor_duration_seconds": 426.2
+  },
+  "claims": [
+    {
+      "claim": "Auto Commit must be off on the PostgreSQL connection for Use cursor streaming",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches established fact."
+    },
+    {
+      "claim": "TMC triggers are Daily/CRON etc. and the CRON dialog previews next executions",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches TMC trigger vocabulary."
+    },
+    {
+      "claim": "tSnowflakeOutput Upsert 'sends JDBC batches and merges per batch'",
+      "type": "factual",
+      "verified": false,
+      "note": "tSnowflakeOutput loads via the Snowflake loader (internal stage, COPY into a temp table, then MERGE), not plain JDBC batch statements. Minor mechanism error; the Upsert/Upsert Key settings themselves are real."
+    },
+    {
+      "claim": "Remote Engine pairing uses etc/preauthorized.key.cfg with remote.engine.pre.authorized.key and remote.engine.name",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct for Remote Engine Gen1."
+    },
+    {
+      "claim": "PUT /orchestration/executables/tasks/{taskId}/run-config with trigger type CRON and runtime REMOTE_ENGINE",
+      "type": "factual",
+      "verified": true,
+      "note": "Real TMC API endpoint and payload shape."
+    },
+    {
+      "claim": "GET .../run-config/events?limit=5 lists the next fire times",
+      "type": "factual",
+      "verified": null,
+      "note": "Could not verify this sub-endpoint."
+    },
+    {
+      "claim": "15 minutes is above TMC's 5-minute minimum trigger spacing",
+      "type": "factual",
+      "verified": null,
+      "note": "Minimum spacing not verified."
+    },
+    {
+      "claim": "Published artifact versions appear as 0.1.0.<timestamp>",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches TMC artifact version format."
+    },
+    {
+      "claim": "tSnowflakeConnection has an Auto Commit option (hedged: confirm per R-release, fallback ALTER SESSION SET AUTOCOMMIT=FALSE)",
+      "type": "factual",
+      "verified": null,
+      "note": "Hedged appropriately."
+    },
+    {
+      "claim": "Catching tDie in tLogCatcher would re-enter the catcher and send a second mail",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct behaviour when Catch tDie is checked."
+    },
+    {
+      "claim": "A TMC run is a fresh JVM on the engine so globalMap/context do not persist between runs",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    }
+  ],
+  "eval_critique": [
+    "Assertion 9 (TMC execution statuses) is conditional and both answers satisfied it vacuously by never naming an API status constant; it only discriminates when an answer volunteers the wrong constant. Consider rewording so the answer must state how TMC reports the failed run (and optionally the API status) to make it non-vacuous.",
+    "Assertion 4 accepts 'upsert on order_id, batch size' OR 'staging + MERGE'; neither answer gave a numeric batch size for the Snowflake output, yet both pass via the alternative clause. If batch size matters, make it a separate assertion.",
+    "Assertion 8 was the only discriminator in this eval (without_skill set Auto Commit on while enabling Use cursor). Good catch; keep it.",
+    "No assertion checks the high-watermark safety design (upper bound taken from the source clock minus a lag, or an overlap) which both answers covered and which separates a restartable design from a naive max(updated_at) one.",
+    "No assertion checks that the watermark is written on the same connection/transaction as the load (atomicity), or that Allow parallel run is disabled for a 15-minute cadence; both are production-relevant and were covered by the with_skill answer and partially by without_skill."
+  ]
+}

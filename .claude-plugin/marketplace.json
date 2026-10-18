@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "jrs-etl",
+  "description": "Talend / Qlik Talend ETL for Claude Code: the talend-etl skill, a complete data-integration knowledge base (Studio, connectors, tMap, Spark, ESB, deployment on TAC/TMC, APIs, artifact formats, data quality/MDM, versions, patterns) with offline helpers to inspect job .item files and Build Job exports, encode TAC MetaServlet calls and drive the Talend Cloud API.",
+  "owner": {
+    "name": "Robert Gorsuch",
+    "url": "https://github.com/robertgorsuch"
+  },
+  "plugins": [
+    {
+      "name": "talend-etl",
+      "description": "Complete working knowledge of Talend / Qlik Talend data integration: Talend Studio (Standard, Spark, ESB Routes/Services, Data Quality, MDM), the connector library at parameter level, tMap and expression semantics, routines, build and deployment options (standalone, TAC/JobServer, Talend Cloud TMC/Remote Engine, Talend Runtime, Docker, CI Builder), the TMC/MetaServlet/CommandLine/Component Kit APIs, .item/.properties/Jobscript/export formats, version and licensing history, and a design-pattern and troubleshooting playbook. Offline Python 3 helpers inspect job .item files and exported job zips, encode TAC MetaServlet calls, and call the Talend Cloud API. Requires only Python 3 (stdlib).",
+      "author": {
+        "name": "Robert Gorsuch",
+        "url": "https://github.com/robertgorsuch"
+      },
+      "category": "development",
+      "source": "./plugins/talend-etl",
+      "homepage": "https://github.com/robertgorsuch/jrs-etl"
+    }
+  ]
+}

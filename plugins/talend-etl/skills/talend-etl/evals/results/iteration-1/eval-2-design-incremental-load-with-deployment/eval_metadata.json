@@ -1,0 +1,13 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-design-incremental-load-with-deployment",
+  "prompt": "We're on Talend Studio 8.0 (R2025-xx) with Talend Cloud. I need a Standard job that loads only new/changed orders from a PostgreSQL source table (updated_at column) into Snowflake every 15 minutes, keeps a watermark so it's restartable, upserts on order_id, and emails ops if it fails. Lay out the exact components, links, key settings and context variables, and tell me how to deploy and schedule it on a Remote Engine via TMC including how the watermark survives between runs.",
+  "assertions": [
+    "Uses only real Talend component names and link types (e.g. tDBInput, tMap, tSnowflakeOutput or tDBOutput, OnSubjobOk, OnSubjobError, tSendMail, tDie, tPrejob, tPostjob)",
+    "Keeps the watermark in a control table or file that is written only after a successful load (OnSubjobOk), not in a context variable",
+    "Shows the watermark used inside the SQL query as a Java expression with context/globalMap and proper date formatting",
+    "Specifies Snowflake upsert settings (output action upsert/merge on order_id, batch size) or an equivalent staging + MERGE pattern",
+    "Explains Publish to Cloud (or CI Builder) then creating a TMC task on a Remote Engine with a schedule trigger and context parameter overrides",
+    "Puts credentials in Password-type context parameters or TMC connections rather than hard-coding them"
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "expectations": [
+    {
+      "text": "Explains the tMap NullPointerException as null data hitting a non-nullable (primitive) column or a null-dereferencing expression and gives the Nullable/guard fix",
+      "passed": true,
+      "evidence": "Section 2 table: null String method calls, arithmetic unboxing, 'output column typed int/long/double (Nullable unchecked) fed from a nullable source', Left Outer Join miss; fix: null-safe expressions and 'tick Nullable on every input and output column that can legitimately be null'."
+    },
+    {
+      "text": "Explains the ClassCastException as a wrong cast on a globalMap value and names the correct cast approach",
+      "passed": true,
+      "evidence": "Section 3: 'Integer n = (Integer) globalMap.get(\"tDBInput_2_NB_LINE\")' ... 'on the server it is a Long'; fix 'int count = (o == null) ? 0 : ((Number) o).intValue();'."
+    },
+    {
+      "text": "Points out that without --context=<ContextName> the Default context runs and that --context_param only overrides individual parameters",
+      "passed": true,
+      "evidence": "'The exported run script hard-codes --context=Default ... so the job starts with the Default/Dev values for every variable and then overrides exactly one of them, DB_HOST'; fix './ORDERS_LOAD_run.sh --context=Prod --context_param DB_HOST=prod-db'."
+    },
+    {
+      "text": "Mentions that command-line context values are strings parsed to the declared type and/or implicit context load precedence",
+      "passed": true,
+      "evidence": "Implicit load precedence stated: 'Implicit context load ... runs after the command-line parsing and overrides whatever you passed' (unhedged; see claims). String-to-type parsing of CLI values is not explicitly stated, but the assertion's 'and/or' is met by the precedence clause."
+    },
+    {
+      "text": "Suggests checking the launcher script / contexts folder in the export or the Studio Component/Outline view to confirm variable types",
+      "passed": true,
+      "evidence": "'Open the script ops are running. A Talend-exported launcher looks like this: ... --context=Default \"$@\"'; names the contexts folder '<project>/orders_load_0_1/contexts/<ContextName>.properties'. (No Outline/Component view suggestion, but the export-inspection clause is met.)"
+    },
+    {
+      "text": "Does not recommend editing generated Java as the primary fix",
+      "passed": true,
+      "evidence": "Fixes are in Studio (Nullable flags, expressions, tJava user code) followed by 'Rebuild and redeploy the zip'. The only script edit proposed is changing --context=Default in the shell launcher, which is not generated Java."
+    },
+    {
+      "text": "Gives the exported context file path as <project>/<job>_<ver>/contexts/<ContextName>.properties (no job-name prefix on the file)",
+      "passed": true,
+      "evidence": "'compiled into the job jar as <project>/orders_load_0_1/contexts/<ContextName>.properties' — job folder/contexts/<ContextName>.properties, no job-name prefix."
+    },
+    {
+      "text": "Recommends checking the Outline / Component view (or the component's documented return variables) to see the real type of the globalMap value behind the ClassCastException",
+      "passed": false,
+      "evidence": "No recommendation to check the Outline or Component view or the component's documented return variables for the globalMap value's type. The answer only says 'Declare the column type explicitly in the schema' and to compare the jar MANIFEST.MF build timestamp."
+    },
+    {
+      "text": "Links the wrong context to the NPE (a DEV/Default lookup target or empty value can produce the null)",
+      "passed": true,
+      "evidence": "'a context variable that is empty in the context the server is actually using (see 1)'; table row 'context.DEFAULT_WAREHOUSE.trim(), context.BATCH_SIZE * 2 — the variable is empty in the context actually loaded on the server'; 'it can easily cascade into the other two errors (dev credentials against a prod host ...)'."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 1,
+    "total": 9,
+    "pass_rate": 0.89
+  },
+  "execution_metrics": {
+    "output_chars": 12757
+  },
+  "timing": {
+    "executor_duration_seconds": 184.5
+  },
+  "claims": [
+    {
+      "claim": "Implicit context load runs after command-line parsing and overrides whatever you passed with --context_param",
+      "type": "factual",
+      "verified": null,
+      "note": "Stated without hedge; precedence is release-dependent (recent generated code skips keys supplied by --context_param). Potentially misleading."
+    },
+    {
+      "claim": "StringHandling.LEN(row1.code) > 0 is a null-safe routine and StringHandling.* / TalendDate.* 'mostly tolerate nulls'",
+      "type": "factual",
+      "verified": false,
+      "note": "StringHandling.LEN, TRIM, UPCASE, DOWNCASE call methods on the argument and throw NullPointerException on null; recommending them as null guards is wrong in the very NPE scenario being debugged."
+    },
+    {
+      "claim": "Context file path <project>/orders_load_0_1/contexts/<ContextName>.properties, also packaged in the jar",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches established fact."
+    },
+    {
+      "claim": "Unknown --context_param names are silently ignored",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "An unknown --context name prints a warning and falls back to default values rather than failing",
+      "type": "factual",
+      "verified": null,
+      "note": "Plausible; not verified."
+    },
+    {
+      "claim": "tDBInput with Nullable unchecked throws 'Null value in non-Nullable column'",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches the generated-code runtime exception message."
+    },
+    {
+      "claim": "Integer-typed tDBInput columns are read with getInt() and cannot yield a Long",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct."
+    },
+    {
+      "claim": "'Apply context to children' in Build Job propagates the context to tRunJob children",
+      "type": "factual",
+      "verified": true,
+      "note": "Real Build Job option."
+    },
+    {
+      "claim": "Talend 7.x targets Java 8/11, Talend 8 targets 11/17",
+      "type": "factual",
+      "verified": true,
+      "note": "Approximately correct."
+    }
+  ],
+  "eval_critique": [
+    "Assertion 8 (Outline/Component view or documented return variables for the globalMap type) was the only discriminator; without_skill offered only 'declare the column type explicitly' and 'compare MANIFEST.MF'. Keep it.",
+    "Assertion 4 is satisfied by either 'strings parsed to type' OR 'implicit load precedence'; without_skill passed via a precedence statement ('implicit context load ... overrides whatever you passed') that is unhedged and release-dependent. Consider requiring the string-parsing fact explicitly, or requiring the answer to say precedence must be confirmed in the generated code.",
+    "Assertion 5 bundles two different checks ('launcher script / contexts folder' OR 'Component/Outline view to confirm variable types'); without_skill passes on the first clause alone. Split it so the export-inspection and the type-confirmation checks are graded separately.",
+    "Assertion 6 ('does not recommend editing generated Java') is a negative check; both pass. It could be strengthened to 'fixes are applied in Studio schema/expressions and the artifact is rebuilt and redeployed', which both answers also state.",
+    "No assertion checks the null-safety claims about built-in routines: without_skill asserted StringHandling.LEN is null-safe and that StringHandling.* 'mostly tolerate nulls', which contradicts the behaviour of TRIM/UPCASE/LEN and would mislead the user in exactly the NPE scenario being debugged."
+  ]
+}

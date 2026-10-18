@@ -1,0 +1,127 @@
+{
+  "expectations": [
+    {
+      "text": "Explains the tMap NullPointerException as null data hitting a non-nullable (primitive) column or a null-dereferencing expression and gives the Nullable/guard fix",
+      "passed": true,
+      "evidence": "Section 2 table: 'int qty = row1.QTY; / row1.QTY.intValue() / passing row1.QTY into a column of primitive type ... Schema column is primitive (Nullable unchecked). Unboxing a null Integer is an NPE' -> 'set the type to the object type ... and tick Nullable'; also 'row1.CUSTOMER_NAME.trim() ... Null-guard the expression: row1.CUSTOMER_NAME == null ? null : ...' and lookup-miss row."
+    },
+    {
+      "text": "Explains the ClassCastException as a wrong cast on a globalMap value and names the correct cast approach",
+      "passed": true,
+      "evidence": "Section 3: 'Your tJava_1 code contains ... an (Integer) cast of something that is typed Object at compile time and turns out to be a Long at runtime', examples with globalMap.get; fix 'long orderId = o == null ? 0L : ((Number) o).longValue(); // works for Integer, Long, BigDecimal' and aligning schema types to Long."
+    },
+    {
+      "text": "Points out that without --context=<ContextName> the Default context runs and that --context_param only overrides individual parameters",
+      "passed": true,
+      "evidence": "'./ORDERS_LOAD_run.sh --context_param DB_HOST=prod-db does exactly one thing: it overrides the single variable DB_HOST. Every other context variable keeps the value from the context that is hard-wired in the script ... --context=Default ... So ops are running the Default (dev) context'. Fix: '--context=Prod --context_param DB_HOST=prod-db'."
+    },
+    {
+      "text": "Mentions that command-line context values are strings parsed to the declared type and/or implicit context load precedence",
+      "passed": true,
+      "evidence": "'Typed variables: Integer/Date/Boolean context vars are parsed from the string. A value that does not parse ... ends up null'; 'An implicit/explicit tContextLoad runs after the command line and overwrites it. If Project Settings -> Job Settings -> Implicit Context Load ... those values win over --context_param'."
+    },
+    {
+      "text": "Suggests checking the launcher script / contexts folder in the export or the Studio Component/Outline view to confirm variable types",
+      "passed": true,
+      "evidence": "'Open ORDERS_LOAD_run.sh; the last line looks like: java ... --context=Default \"$@\"'; 'Verify contexts/ORDERS_LOAD_Prod.properties exists and contains every variable'; locating the line in 'Studio's Code tab'. Launcher/contexts check satisfies the assertion (Outline view not mentioned)."
+    },
+    {
+      "text": "Does not recommend editing generated Java as the primary fix",
+      "passed": true,
+      "evidence": "Fixes are schema/expression changes in Studio, re-export with the right context, and type alignment; the generated ORDERS_LOAD.java is read only to find the failing line ('Open that line in ... ORDERS_LOAD.java inside the zip (or Studio's Code tab)'). The only script edit suggested is JVM flags in the launcher .sh, not generated Java."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 15577
+  },
+  "timing": {
+    "executor_duration_seconds": 215.6
+  },
+  "claims": [
+    {
+      "claim": "Context values are read from ORDERS_LOAD/contexts/ORDERS_LOAD_<ctx>.properties (e.g. ORDERS_LOAD_Prod.properties)",
+      "type": "factual",
+      "verified": false,
+      "note": "Wrong file naming/location. Studio exports context files as <Context>.properties (Default.properties, Prod.properties) under <project>/<job>_<version>/contexts/ inside the job folder and jar; there is no job-name prefix. Ops following this would not find the file. The with_skill answer gives the correct path."
+    },
+    {
+      "claim": "A second --context= on the command line overrides the one baked into the script",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct; arguments are parsed in order."
+    },
+    {
+      "claim": "Implicit/explicit tContextLoad runs after the command line and overwrites --context_param values",
+      "type": "factual",
+      "verified": true,
+      "note": "Consistent with generated code order."
+    },
+    {
+      "claim": "tRunJob 'Transmit whole context' is needed for child-job context variables to receive parent values",
+      "type": "factual",
+      "verified": true,
+      "note": "Real tRunJob option."
+    },
+    {
+      "claim": "Passwords in exported .properties must be in the encrypted form Studio writes",
+      "type": "factual",
+      "verified": null,
+      "note": "Password-type context values are written encrypted; whether a plaintext value in the file is accepted as a fallback depends on release and could not be verified."
+    },
+    {
+      "claim": "tContextDump exists and can dump the resolved context to tLogRow",
+      "type": "factual",
+      "verified": true,
+      "note": "Real component."
+    },
+    {
+      "claim": "MySQL BIGINT / COUNT(*) / LAST_INSERT_ID() and PostgreSQL bigint/count(*) come back as Long; Oracle NUMBER as BigDecimal; a different driver jar in lib/ can change getObject() mapping",
+      "type": "factual",
+      "verified": true,
+      "note": "Correct JDBC behaviour; plausible explanation for environment-specific ClassCastException."
+    },
+    {
+      "claim": "tFileProperties size and tStatCatcher durations are Long; *_NB_LINE, tFileRowCount_COUNT, tLoop_CURRENT_VALUE are Integer",
+      "type": "factual",
+      "verified": true,
+      "note": "Matches documented globalMap types."
+    },
+    {
+      "claim": "tMap 'Store temp data' with a Windows 'Temp data directory path' fails on Linux",
+      "type": "factual",
+      "verified": true,
+      "note": "Real tMap setting and a genuine portability gotcha."
+    },
+    {
+      "claim": "Talend 7.3 runs on Java 8/11; Talend 8 on Java 11/17",
+      "type": "factual",
+      "verified": true,
+      "note": "Approximately correct."
+    },
+    {
+      "claim": "The exported .sh does cd into the job folder so relative paths resolve from there",
+      "type": "factual",
+      "verified": true,
+      "note": "Launcher begins with cd `dirname $0`."
+    },
+    {
+      "claim": "Unzipping a new build over an old folder leaves two versions of the same jar in lib/",
+      "type": "quality",
+      "verified": true,
+      "note": "Valid operational warning."
+    }
+  ],
+  "eval_critique": [
+    "All six assertions pass for both runs; the eval does not discriminate. The observable difference is accuracy of export-layout facts: without_skill names the context files 'ORDERS_LOAD/contexts/ORDERS_LOAD_<ctx>.properties', which is not how Studio names them (they are <project>/<job>_<ver>/contexts/<Context>.properties). An assertion like 'names the context properties file path correctly (contexts/<ContextName>.properties under the job folder)' would separate the two.",
+    "Assertion 5 uses 'or' across three very different checks; both answers hit the launcher/contexts part, only with_skill mentions the Outline view for globalMap types (the part that actually resolves the ClassCastException). Consider splitting it.",
+    "Assertion 6 ('does not recommend editing generated Java') is a reasonable negative check but is easy to pass; both answers correctly use the generated .java only to locate the failing line. It could be sharpened to 'locates the failing expression via the stack-trace line number / Code view and fixes it in the tMap editor'.",
+    "No assertion checks the explanation of why the bug is intermittent ('sometimes' ClassCastException) or the link between the wrong context and the NPE (a null context variable). Both answers covered it; a weaker answer would not, and the eval would not notice.",
+    "No assertion checks that the answer tells ops to verify jobInfo.properties / build date to rule out a stale export, which with_skill included and is a common real root cause."
+  ]
+}
